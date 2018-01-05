@@ -1,0 +1,756 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.16299}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\f0\fs24\lang9 *******************welcome file list****************************\b0\par
+
+\pard\sa200\sl240\slmult1 The welcome-file-list element of web-app, is used to define a list of welcome files. Its sub element is welcome-file that is used to define the welcome file.\par
+\par
+A welcome file is the file that is invoked automatically by the server, if you don't specify any file name.\par
+\par
+By default server looks for the welcome file in following order:\par
+\par
+    welcome-file-list in web.xml\par
+    index.html\par
+    index.htm\par
+    index.jsp\par
+\par
+If none of these files are found, server renders 404 error.\par
+\par
+If you have specified welcome-file in web.xml, and all the files index.html, index.htm and index.jsp exists, priority goes to welcome-file.\par
+\par
+If welcome-file-list entry doesn't exist in web.xml file, priority goes to index.html file then index.htm and at last index.jsp file.\par
+\par
+Let's see the web.xml file that defines the welcome files.\par
+web.xml\par
+\par
+    <web-app>  \par
+     ....  \par
+      \par
+      <welcome-file-list>  \par
+       <welcome-file>home.html</welcome-file>  \par
+       <welcome-file>default.html</welcome-file>  \par
+      </welcome-file-list>  \par
+    </web-app>  \par
+\par
+Now, home.html and default.html will be the welcome files.\par
+\par
+If you have the welcome file, you can directory invoke the project as given below:\par
+\par
+    {{\field{\*\fldinst{HYPERLINK http://localhost:8888/myproject }}{\fldrslt{http://localhost:8888/myproject\ul0\cf0}}}}\f0\fs24   \par
+\par
+As you can see, we have not specified any file name after the project.\par
+\par
+\b ************load on startup**************************\b0\par
+load on startup in web.xml\par
+\par
+The load-on-startup element of web-app loads the servlet at the time of deployment or server start if value is positive. It is also known as pre initialization of servlet.\par
+\par
+You can pass positive and negative value for the servlet.\par
+Advantage of load-on-startup element\par
+\par
+As you know well, servlet is loaded at first request. That means it consumes more time at first request. If you specify the load-on-startup in web.xml, servlet will be loaded at project deployment time or server start. So, it will take less time for responding to first request.\par
+Passing positive value\par
+\par
+If you pass the positive value, the lower integer value servlet will be loaded before the higher integer value servlet. In other words, container loads the servlets in ascending integer value. The 0 value will be loaded first then 1, 2, 3 and so on.\par
+\par
+Let's try to understand it by the example given below:\par
+web.xml\par
+\par
+    <web-app>  \par
+     ....  \par
+      \par
+      <servlet>  \par
+       <servlet-name>servlet1</servlet-name>  \par
+       <servlet-class>com.javatpoint.FirstServlet</servlet-class>  \par
+       <load-on-startup>0</load-on-startup>  \par
+      </servlet>  \par
+      \par
+      <servlet>  \par
+       <servlet-name>servlet2</servlet-name>  \par
+       <servlet-class>com.javatpoint.SecondServlet</servlet-class>  \par
+       <load-on-startup>1</load-on-startup>  \par
+      </servlet>  \par
+      \par
+     ...  \par
+    </web-app>  \par
+\par
+There are defined 2 servlets, both servlets will be loaded at the time of project deployment or server start. But, servlet1 will be loaded first then servlet2.\par
+Passing negative value\par
+\par
+If you pass the negative value, servlet will be loaded at request time, at first request.\par
+\b ********RequestDispatcher**********************************\b0\par
+RequestDispatcher in Servlet\par
+\par
+    RequestDispatcher Interface\par
+    Methods of RequestDispatcher interface\par
+        forward method\par
+        include method\par
+    How to get the object of RequestDispatcher\par
+    Example of RequestDispatcher interface\par
+\par
+The RequestDispatcher interface provides the facility of dispatching the request to another resource it may be html, servlet or jsp. This interface can also be used to include the content of another resource also. It is one of the way of servlet collaboration.\par
+\par
+There are two methods defined in the RequestDispatcher interface.\par
+\par
+Methods of RequestDispatcher interface\par
+\par
+The RequestDispatcher interface provides two methods. They are:\par
+\par
+    public void forward(ServletRequest request,ServletResponse response)throws ServletException,java.io.IOException:Forwards a request from a servlet to another resource (servlet, JSP file, or HTML file) on the server.\par
+    public void include(ServletRequest request,ServletResponse response)throws ServletException,java.io.IOException:Includes the content of a resource (servlet, JSP page, or HTML file) in the response.\par
+\par
+forward() method of RequestDispatcher interface\par
+\par
+As you see in the above figure, response of second servlet is sent to the client. Response of the first servlet is not displayed to the user.\par
+\par
+include() method of RequestDispatcher interface\par
+As you can see in the above figure, response of second servlet is included in the response of the first servlet that is being sent to the client.\par
+How to get the object of RequestDispatcher\par
+\par
+The getRequestDispatcher() method of ServletRequest interface returns the object of RequestDispatcher. Syntax:\par
+Syntax of getRequestDispatcher method\par
+\par
+    public RequestDispatcher getRequestDispatcher(String resource);  \par
+\par
+Example of using getRequestDispatcher method\par
+\par
+    RequestDispatcher rd=request.getRequestDispatcher("servlet2");  \par
+    //servlet2 is the url-pattern of the second servlet  \par
+      \par
+    rd.forward(request, response);//method may be include or forward  \par
+\par
+Example of RequestDispatcher interface\par
+\par
+In this example, we are validating the password entered by the user. If password is servlet, it will forward the request to the WelcomeServlet, otherwise will show an error message: sorry username or password error!. In this program, we are cheking for hardcoded information. But you can check it to the database also that we will see in the development chapter. In this example, we have created following files:\par
+\par
+    index.html file: for getting input from the user.\par
+    Login.java file: a servlet class for processing the response. If password is servet, it will forward the request to the welcome servlet.\par
+    WelcomeServlet.java file: a servlet class for displaying the welcome message.\par
+    web.xml file: a deployment descriptor file that contains the information about the servlet.\par
+\par
+RequestDispatcher interface\par
+index.html\par
+\par
+    <form action="servlet1" method="post">  \par
+    Name:<input type="text" name="userName"/><br/>  \par
+    Password:<input type="password" name="userPass"/><br/>  \par
+    <input type="submit" value="login"/>  \par
+    </form>  \par
+\par
+Login.java\par
+\par
+    import java.io.*;  \par
+    import javax.servlet.*;  \par
+    import javax.servlet.http.*;  \par
+      \par
+      \par
+    public class Login extends HttpServlet \{  \par
+      \par
+    public void doPost(HttpServletRequest request, HttpServletResponse response)  \par
+            throws ServletException, IOException \{  \par
+      \par
+        response.setContentType("text/html");  \par
+        PrintWriter out = response.getWriter();  \par
+              \par
+        String n=request.getParameter("userName");  \par
+        String p=request.getParameter("userPass");  \par
+              \par
+        if(p.equals("servlet")\{  \par
+            RequestDispatcher rd=request.getRequestDispatcher("servlet2");  \par
+            rd.forward(request, response);  \par
+        \}  \par
+        else\{  \par
+            out.print("Sorry UserName or Password Error!");  \par
+            RequestDispatcher rd=request.getRequestDispatcher("/index.html");  \par
+            rd.include(request, response);  \par
+                          \par
+            \}  \par
+        \}  \par
+      \par
+    \}  \par
+\par
+WelcomeServlet.java\par
+\par
+    import java.io.*;  \par
+    import javax.servlet.*;  \par
+    import javax.servlet.http.*;  \par
+      \par
+    public class WelcomeServlet extends HttpServlet \{  \par
+      \par
+        public void doPost(HttpServletRequest request, HttpServletResponse response)  \par
+            throws ServletException, IOException \{  \par
+      \par
+        response.setContentType("text/html");  \par
+        PrintWriter out = response.getWriter();  \par
+              \par
+        String n=request.getParameter("userName");  \par
+        out.print("Welcome "+n);  \par
+        \}  \par
+      \par
+    \}  \par
+\par
+web.xml\par
+\par
+    <web-app>  \par
+     <servlet>  \par
+        <servlet-name>Login</servlet-name>  \par
+        <servlet-class>Login</servlet-class>  \par
+      </servlet>  \par
+      <servlet>  \par
+        <servlet-name>WelcomeServlet</servlet-name>  \par
+        <servlet-class>WelcomeServlet</servlet-class>  \par
+      </servlet>  \par
+      \par
+      \par
+      <servlet-mapping>  \par
+        <servlet-name>Login</servlet-name>  \par
+        <url-pattern>/servlet1</url-pattern>  \par
+      </servlet-mapping>  \par
+      <servlet-mapping>  \par
+        <servlet-name>WelcomeServlet</servlet-name>  \par
+        <url-pattern>/servlet2</url-pattern>  \par
+      </servlet-mapping>  \par
+      \par
+      <welcome-file-list>  \par
+       <welcome-file>index.html</welcome-file>  \par
+      </welcome-file-list>  \par
+    </web-app>  \par
+\b **************send redrict************************\par
+\b0 The sendRedirect() method of HttpServletResponse interface can be used to redirect response to another resource, it may be servlet, jsp or html file.\par
+\par
+It accepts relative as well as absolute URL.\par
+\par
+It works at client side because it uses the url bar of the browser to make another request. So, it can work inside and outside the server.\par
+Difference between forward() and sendRedirect() method\par
+\par
+There are many differences between the forward() method of RequestDispatcher and sendRedirect() method of HttpServletResponse interface. They are given below:\par
+forward() method\tab sendRedirect() method\par
+The forward() method works at server side.\tab The sendRedirect() method works at client side.\par
+It sends the same request and response objects to another servlet.\tab It always sends a new request.\par
+It can work within the server only.\tab It can be used within and outside the server.\par
+Example: request.getRequestDispacher("servlet2").forward(request,response);\tab Example: response.sendRedirect("servlet2");\par
+Syntax of sendRedirect() method\par
+\par
+    public void sendRedirect(String URL)throws IOException;  \par
+\par
+Example of sendRedirect() method\par
+\par
+    response.sendRedirect("http://www.javatpoint.com");  \par
+\par
+Full example of sendRedirect method in servlet\par
+In this example, we are redirecting the request to the google server. Notice that sendRedirect method works at client side, that is why we can our request to anywhere. We can send our request within and outside the server.\par
+DemoServlet.java\par
+\par
+    import java.io.*;  \par
+    import javax.servlet.*;  \par
+    import javax.servlet.http.*;  \par
+      \par
+    public class DemoServlet extends HttpServlet\{  \par
+    public void doGet(HttpServletRequest req,HttpServletResponse res)  \par
+    throws ServletException,IOException  \par
+    \{  \par
+    res.setContentType("text/html");  \par
+    PrintWriter pw=res.getWriter();  \par
+      \par
+    response.sendRedirect("http://www.google.com");  \par
+      \par
+    pw.close();  \par
+    \}\}  \par
+\par
+Creating custom google search using sendRedirect\par
+\par
+In this example, we are using sendRedirect method to send request to google server with the request data.\par
+index.html\par
+\par
+    <!DOCTYPE html>  \par
+    <html>  \par
+    <head>  \par
+    <meta charset="ISO-8859-1">  \par
+    <title>sendRedirect example</title>  \par
+    </head>  \par
+    <body>  \par
+      \par
+      \par
+    <form action="MySearcher">  \par
+    <input type="text" name="name">  \par
+    <input type="submit" value="Google Search">  \par
+    </form>  \par
+      \par
+    </body>  \par
+    </html>  \par
+\par
+MySearcher.java\par
+\par
+    import java.io.IOException;  \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.http.HttpServlet;  \par
+    import javax.servlet.http.HttpServletRequest;  \par
+    import javax.servlet.http.HttpServletResponse;  \par
+      \par
+    public class MySearcher extends HttpServlet \{  \par
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)  \par
+                throws ServletException, IOException \{  \par
+      \par
+            String name=request.getParameter("name");  \par
+            response.sendRedirect("https://www.google.co.in/#q="+name);  \par
+        \}  \par
+    \}  \par
+\b ***************Pagination in Servlet********************\par
+\b0 To divide large number of records into multiple parts, we use pagination. It allows user to display a part of records only. Loading all records in a single page may take time, so it is always recommended to created pagination. In servlet, we can develop pagination example easily.\par
+\par
+In this servlet pagination example, we are using MySQL database to fetch records.\par
+\par
+Here, we have created "emp" table in "test" database. The emp table has three fields: id, name and salary. Either create table and insert records manually or import our sql file.\par
+index.html\par
+\par
+    <a href="ViewServlet?page=1">View Employees</a>  \par
+\par
+ViewServlet.java\par
+\par
+    package com.javatpoint.servlets;  \par
+      \par
+    import java.io.IOException;  \par
+    import java.io.PrintWriter;  \par
+    import java.util.List;  \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.annotation.WebServlet;  \par
+    import javax.servlet.http.HttpServlet;  \par
+    import javax.servlet.http.HttpServletRequest;  \par
+    import javax.servlet.http.HttpServletResponse;  \par
+    import com.javatpoint.beans.Emp;  \par
+    import com.javatpoint.dao.EmpDao;  \par
+      \par
+    @WebServlet("/ViewServlet")  \par
+    public class ViewServlet extends HttpServlet \{  \par
+        private static final long serialVersionUID = 1L;  \par
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)   \par
+               throws ServletException, IOException \{  \par
+            response.setContentType("text/html");  \par
+            PrintWriter out=response.getWriter();  \par
+              \par
+            String spageid=request.getParameter("page");  \par
+            int pageid=Integer.parseInt(spageid);  \par
+            int total=5;  \par
+            if(pageid==1)\{\}  \par
+            else\{  \par
+                pageidpageid=pageid-1;  \par
+                pageidpageid=pageid*total+1;  \par
+            \}  \par
+            List<Emp> list=EmpDao.getRecords(pageid,total);  \par
+      \par
+            out.print("<h1>Page No: "+spageid+"</h1>");  \par
+            out.print("<table border='1' cellpadding='4' width='60%'>");  \par
+            out.print("<tr><th>Id</th><th>Name</th><th>Salary</th>");  \par
+            for(Emp e:list)\{  \par
+                out.print("<tr><td>"+e.getId()+"</td><td>"+e.getName()+"</td><td>"+e.getSalary()+"</td></tr>");  \par
+            \}  \par
+            out.print("</table>");  \par
+              \par
+            out.print("<a href='ViewServlet?page=1'>1</a> ");  \par
+            out.print("<a href='ViewServlet?page=2'>2</a> ");  \par
+            out.print("<a href='ViewServlet?page=3'>3</a> ");  \par
+              \par
+            out.close();  \par
+        \}  \par
+    \}  \par
+\par
+Emp.java\par
+\par
+    package com.javatpoint.beans;  \par
+      \par
+    public class Emp \{  \par
+    private int id;  \par
+    private String name;  \par
+    private float salary;  \par
+    //getters and setters  \par
+    \}  \par
+\par
+EmpDao.java\par
+\par
+    package com.javatpoint.dao;  \par
+    import com.javatpoint.beans.*;  \par
+    import java.sql.*;  \par
+    import java.util.ArrayList;  \par
+    import java.util.List;  \par
+    public class EmpDao \{  \par
+      \par
+        public static Connection getConnection()\{  \par
+            Connection con=null;  \par
+            try\{  \par
+                Class.forName("com.mysql.jdbc.Driver");  \par
+                con=DriverManager.getConnection("jdbc:mysql://localhost:3306/test","","");  \par
+            \}catch(Exception e)\{System.out.println(e);\}  \par
+            return con;  \par
+        \}  \par
+      \par
+        public static List<Emp> getRecords(int start,int total)\{  \par
+            List<Emp> list=new ArrayList<Emp>();  \par
+            try\{  \par
+                Connection con=getConnection();  \par
+                PreparedStatement ps=con.prepareStatement("select * from emp limit "+(start-1)+","+total);  \par
+                ResultSet rs=ps.executeQuery();  \par
+                while(rs.next())\{  \par
+                    Emp e=new Emp();  \par
+                    e.setId(rs.getInt(1));  \par
+                    e.setName(rs.getString(2));  \par
+                    e.setSalary(rs.getFloat(3));  \par
+                    list.add(e);  \par
+                \}  \par
+                con.close();  \par
+            \}catch(Exception e)\{System.out.println(e);\}  \par
+            return list;  \par
+        \}  \par
+    \}  \par
+\par
+\b **********Single Thread Model*****************\b0\par
+SingleThreadModel interface\par
+\par
+    SingleThreadModel interface\par
+    Example of SingleThreadModel interface\par
+\par
+The servlet programmer should implement SingleThreadModel interface to ensure that servlet can handle only one request at a time. It is a marker interface, means have no methods.\par
+\par
+This interface is currently deprecated since Servlet API 2.4 because it doesn't solves all the thread-safety issues such as static variable and session attributes can be accessed by multiple threads at the same time even if we have implemented the SingleThreadModel interface. So it is recommended to use other means to resolve these thread safety issues such as synchronized block etc.\par
+Example of SingleThreadModel interface\par
+\par
+Let's see the simple example of implementing the SingleThreadModel interface.\par
+\par
+    import java.io.IOException;  \par
+    import java.io.PrintWriter;  \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.SingleThreadModel;  \par
+    import javax.servlet.http.HttpServlet;  \par
+    import javax.servlet.http.HttpServletRequest;  \par
+    import javax.servlet.http.HttpServletResponse;  \par
+      \par
+    public class MyServlet extends HttpServlet implements SingleThreadModel\{  \par
+    public void doGet(HttpServletRequest request, HttpServletResponse response)  \par
+        throws ServletException, IOException \{  \par
+        response.setContentType("text/html");  \par
+        PrintWriter out = response.getWriter();  \par
+              \par
+        out.print("welcome");  \par
+        try\{Thread.sleep(10000);\}catch(Exception e)\{e.printStackTrace();\}  \par
+        out.print(" to servlet");  \par
+        out.close();  \par
+        \}  \par
+    \}  \par
+\b ******************Uploading file**************************\par
+\b0  Here, we will learn how to upload file to the server. For uploading a file to the server, method must be post and enctype must be multipart/form-data in html file. For Example:\par
+\par
+index.html\par
+\par
+    <html>  \par
+    <body>  \par
+    <form action="go" method="post" enctype="multipart/form-data">  \par
+    Select {{\field{\*\fldinst{HYPERLINK File:<input }}{\fldrslt{File:<input\ul0\cf0}}}}\f0\fs24  type="file" name="fname"/><br/>  \par
+    <input type="submit" value="upload"/>  \par
+    </form>  \par
+    </body>  \par
+    </html>  \par
+\par
+Example of uploading file to the server in servlet\par
+\par
+Now, for uploading a file to the server, there can be various ways. But, I am going to use MultipartRequest class provided by oreilly. For using this class you must have cos.jar file. If you will download this example, we will the cos.jar file alongwith code.\par
+\par
+UploadServlet.java\par
+\par
+    import java.io.*;  \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.http.*;  \par
+    import com.oreilly.servlet.MultipartRequest;  \par
+      \par
+    public class UploadServlet extends HttpServlet \{  \par
+      \par
+    public void doPost(HttpServletRequest request, HttpServletResponse response)  \par
+        throws ServletException, IOException \{  \par
+      \par
+    response.setContentType("text/html");  \par
+    PrintWriter out = response.getWriter();  \par
+              \par
+    MultipartRequest m=new MultipartRequest(request,"d:/new");  \par
+    out.print("successfully uploaded");  \par
+    \}  \par
+    \}  \par
+\par
+There are two arguments passed in MultipartRequest class constructor, first one is HttpServletRequest object and second one is String object (for location). Here I am supposing that you have new folder in D driver.\par
+web.xml file\par
+\par
+This configuration file provides information about the servlet.\par
+\par
+    <web-app>  \par
+      \par
+    <servlet>  \par
+    <servlet-name>UploadServlet</servlet-name>  \par
+    <servlet-class>UploadServlet</servlet-class>  \par
+    </servlet>  \par
+      \par
+    <servlet-mapping>  \par
+    <servlet-name>UploadServlet</servlet-name>  \par
+    <url-pattern>/go</url-pattern>  \par
+    </servlet-mapping>  \par
+      \par
+    </web-app>  \par
+\b *************downloading *******************************\b0\par
+ For downloading a file from the server, here is the simple example. I am supposing you have home.jsp file in E drive that you want to download. If there is any jar or zip file, you can direct provide a link to that file. So there is no need to write the program to download. But if there is any java file or jsp file etc, you need to create a program to download that file.\par
+Example of downloading file from the server in servlet\par
+\par
+In this example, we are creating three files:\par
+\par
+    index.html\par
+    DownloadServlet.java\par
+    web.xml\par
+\par
+index.html\par
+\par
+This file provides a link to download the file.\par
+\par
+    <a href="servlet/DownloadServlet">download the jsp file</a>  \par
+\par
+DownloadServlet.java\par
+\par
+This is the servlet file that reads the content of the file and writes it into the stream to send as a response. For this purpose, we need to inform the server, so we are setting the content type as APPLICATION/OCTET-STREAM .\par
+\par
+    import java.io.*;  \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.http.*;  \par
+      \par
+    public class DownloadServlet extends HttpServlet \{  \par
+      \par
+    public void doGet(HttpServletRequest request, HttpServletResponse response)  \par
+                throws ServletException, IOException \{  \par
+      \par
+    response.setContentType("text/html");  \par
+    PrintWriter out = response.getWriter();  \par
+    String filename = "home.jsp";   \par
+    String filepath = "e:\\\\";   \par
+    response.setContentType("APPLICATION/OCTET-STREAM");   \par
+    response.setHeader("Content-Disposition","attachment; filename=\\"" + filename + "\\"");   \par
+      \par
+    FileInputStream fileInputStream = new FileInputStream(filepath + filename);  \par
+                \par
+    int i;   \par
+    while ((i=fileInputStream.read()) != -1) \{  \par
+    out.write(i);   \par
+    \}   \par
+    fileInputStream.close();   \par
+    out.close();   \par
+    \}  \par
+      \par
+    \}  \par
+\par
+web.xml file\par
+\par
+This configuration file provides informations to the server about the servlet.\par
+\par
+    <web-app>  \par
+      \par
+    <servlet>  \par
+    <servlet-name>DownloadServlet</servlet-name>  \par
+    <servlet-class>DownloadServlet</servlet-class>  \par
+    </servlet>  \par
+      \par
+    <servlet-mapping>  \par
+    <servlet-name>DownloadServlet</servlet-name>  \par
+    <url-pattern>/servlet/DownloadServlet</url-pattern>  \par
+    </servlet-mapping>  \par
+      \par
+    </web-app>  \par
+\b ************************Mail****************************************\par
+\b0 The JavaMail API provides many classes that can be used to send email from java. The javax.mail and javax.mail.internet packages contains all the classes required for sending and receiving emails.\par
+\par
+For better understanding of this example click steps for sending email from javamail api\par
+\par
+For sending the email using JavaMail API, you need to load the two jar files:\par
+\par
+    mail.jar\par
+    activation.jar\par
+\par
+download these jar files or go to the Oracle site to download the latest version.\par
+Example of Sending email through JavaMail API in Servlet\par
+\par
+Here is the simple example of sending email from servlet. For this example we are creating 3 files:\par
+\par
+    index.html file for input\par
+    SendMail.java , a servlet file for handling the request and providing the response to the user. It uses the send method of Mailer class to send the email.\par
+    Mailer.java , a java class that contains send method to send the emails to the mentioned recipient.\par
+\par
+index.html\par
+\par
+    <form action="servlet/SendMail">  \par
+    To:<input type="text" name="to"/><br/>  \par
+    Subject:<input type="text" name="subject"><br/>  \par
+    Text:<textarea rows="10" cols="70" name="msg"></textarea><br/>  \par
+    <input type="submit" value="send"/>  \par
+    </form>  \par
+\par
+SendMail.java\par
+\par
+    import java.io.IOException;  \par
+    import java.io.PrintWriter;  \par
+      \par
+    import javax.servlet.ServletException;  \par
+    import javax.servlet.http.HttpServlet;  \par
+    import javax.servlet.http.HttpServletRequest;  \par
+    import javax.servlet.http.HttpServletResponse;  \par
+      \par
+      \par
+    public class SendMail extends HttpServlet \{  \par
+    public void doGet(HttpServletRequest request,  \par
+     HttpServletResponse response)  \par
+        throws ServletException, IOException \{  \par
+      \par
+        response.setContentType("text/html");  \par
+        PrintWriter out = response.getWriter();  \par
+          \par
+        String to=request.getParameter("to");  \par
+        String subject=request.getParameter("subject");  \par
+        String msg=request.getParameter("msg");  \par
+              \par
+        Mailer.send(to, subject, msg);  \par
+        out.print("message has been sent successfully");  \par
+        out.close();  \par
+        \}  \par
+      \par
+    \}  \par
+\par
+Mailer.java\par
+\par
+    import java.util.Properties;  \par
+      \par
+    import javax.mail.*;  \par
+    import javax.mail.internet.InternetAddress;  \par
+    import javax.mail.internet.MimeMessage;  \par
+      \par
+    public class Mailer \{  \par
+    public static void send(String to,String subject,String msg)\{  \par
+      \par
+    final String user="sonoojaiswal@javatpoint.com";//change accordingly  \par
+    final String pass="xxxxx";  \par
+      \par
+    //1st step) Get the session object    \par
+    Properties props = new Properties();  \par
+    props.put("mail.smtp.host", "mail.javatpoint.com");//change accordingly  \par
+    props.put("mail.smtp.auth", "true");  \par
+      \par
+    Session session = Session.getDefaultInstance(props,  \par
+     new javax.mail.Authenticator() \{  \par
+      protected PasswordAuthentication getPasswordAuthentication() \{  \par
+       return new PasswordAuthentication(user,pass);  \par
+       \}  \par
+    \});  \par
+    //2nd step)compose message  \par
+    try \{  \par
+     MimeMessage message = new MimeMessage(session);  \par
+     message.setFrom(new InternetAddress(user));  \par
+     message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  \par
+     message.setSubject(subject);  \par
+     message.setText(msg);  \par
+       \par
+     //3rd step)send message  \par
+     Transport.send(message);  \par
+      \par
+     System.out.println("Done");  \par
+      \par
+     \} catch (MessagingException e) \{  \par
+        throw new RuntimeException(e);  \par
+     \}  \par
+          \par
+    \}  \par
+    \}  \par
+\b **********************writing image ************************************\par
+\b0 In this example, we are using FileInputStream class to read image and ServletOutputStream class for writing this image content as a response. To make the performance faster, we have used BufferedInputStream and BufferedOutputStream class.\par
+\par
+You need to use the content type image/jpeg.\par
+\par
+In this example, we are assuming that you have java.jpg image inside the c:\\test directory. You may change the location accordingly.\par
+\par
+To create this application, we have created three files:\par
+\par
+    index.html\par
+    DisplayImage.java\par
+    web.xml\par
+\par
+index.html\par
+\par
+This file creates a link that invokes the servlet. The url-pattern of the servlet is servlet1.\par
+\par
+    <a href="servlet1">click for photo</a>  \par
+\par
+DisplayImage.java\par
+\par
+This servlet class reads the image from the mentioned directory and writes the content in the response object using ServletOutputStream and BufferedOutputStream classes.\par
+\par
+    package com.javatpoint;  \par
+    import java.io.*;  \par
+    import javax.servlet.*;  \par
+    import javax.servlet.http.*;  \par
+    public class DisplayImage extends HttpServlet \{  \par
+      \par
+        public void doGet(HttpServletRequest request,HttpServletResponse response)  \par
+                 throws IOException  \par
+        \{  \par
+        response.setContentType("image/jpeg");  \par
+        ServletOutputStream out;  \par
+        out = response.getOutputStream();  \par
+        FileInputStream fin = new FileInputStream("c:\\\\test\\\\java.jpg");  \par
+          \par
+        BufferedInputStream bin = new BufferedInputStream(fin);  \par
+        BufferedOutputStream bout = new BufferedOutputStream(out);  \par
+        int ch =0; ;  \par
+        while((ch=bin.read())!=-1)  \par
+        \{  \par
+        bout.write(ch);  \par
+        \}  \par
+          \par
+        bin.close();  \par
+        fin.close();  \par
+        bout.close();  \par
+        out.close();  \par
+        \}  \par
+    \}  \par
+\par
+\b **************writing data to PDF****************************************\par
+\b0 Here, we are going to see how we can write data into PDF using servlet technology. We are simply writing some data using servlet and it will get displayed in the PDF.\par
+\par
+To create such application, you need to have the spdf.jar file. If you download this example, you will get the example with jar file.\par
+Example to write data into PDF using servlet\par
+\par
+Let's see the simple example of writing data into PDF using servlet. In this example, we have mentioned the content type application/pdf that must be specified to display data in the PDF format.\par
+ServletPDF.java\par
+\par
+    package com.javatpoint;  \par
+    import java.io.*;  \par
+    import java.util.*;  \par
+    import javax.servlet.*;  \par
+    import javax.servlet.http.*;  \par
+    import com.darwinsys.spdf.PDF;  \par
+    import com.darwinsys.spdf.Page;  \par
+    import com.darwinsys.spdf.Text;  \par
+    import com.darwinsys.spdf.MoveTo;  \par
+      \par
+    public class ServletPDF extends HttpServlet \{  \par
+      \par
+    public void doGet(HttpServletRequest request,  \par
+            HttpServletResponse response) throws IOException \{  \par
+      \par
+    PrintWriter out = response.getWriter();  \par
+    response.setContentType("application/pdf");  \par
+      \par
+    response.setHeader("Content-disposition","inline; filename='javatpoint.pdf'");  \par
+      \par
+    PDF p = new PDF(out);  \par
+    Page p1 = new Page(p);  \par
+    p1.add(new MoveTo(p, 200, 700));  \par
+    p1.add(new Text(p, "{{\field{\*\fldinst{HYPERLINK www.javatpoint.com }}{\fldrslt{www.javatpoint.com\ul0\cf0}}}}\f0\fs24 "));  \par
+    p1.add(new Text(p, "by Sonoo Jaiswal"));  \par
+              \par
+    p.add(p1);  \par
+    p.setAuthor("Ian F. Darwin");  \par
+      \par
+    p.writePDF();  \par
+      \par
+    \}  \par
+    \}  \par
+}
+ 

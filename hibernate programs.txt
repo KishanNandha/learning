@@ -1,0 +1,1157 @@
+** hibernate basic
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>hibernate first</div>
+        <form action="first.jsp">
+           id: <input type="text" name="sid"/><br/>
+            name:<input type="text" name="sname"/><br/>
+            email:<input type="text" name="semail"/><br/>
+            marks:<input type="text" name="smarks"/><br/>
+            <hr/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+first.jsp
+
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>first</h1>
+        <jsp:useBean id="st" scope="session" class="beans.Student"/>
+        <jsp:setProperty property="*"  name="st"/>
+        <% 
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession(); 
+            s.save(st);
+            s.beginTransaction().commit();
+            s.evict(st);
+            %>
+    </body>
+</html>
+
+
+hibernate.cfg.xml
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studentdb?zeroDateTimeBehavior=convertToNull</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        <mapping  resource="beans/student.hbm.xml"></mapping>
+    </session-factory>
+</hibernate-configuration>
+
+student.java
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Student {
+   
+    String sid,sname,semail,smarks;
+
+    public Student() {
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+   
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getSemail() {
+        return semail;
+    }
+
+    public void setSemail(String semail) {
+        this.semail = semail;
+    }
+
+    public String getSmarks() {
+        return smarks;
+    }
+
+    public void setSmarks(String smarks) {
+        this.smarks = smarks;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "sid=" + sid + ", sname=" + sname + ", semail=" + semail + ", smarks=" + smarks + '}';
+    }
+    
+}
+
+
+student.hbm.xml
+
+<hibernate-mapping>
+  <class name="beans.Student" table="student" >
+  <id name="sid" column="sid"/>
+  <property name="sname" column="sname"/>
+  <property name="semail" column="semail"/>
+  <property name="smarks" column="smarks"/>
+  </class>
+</hibernate-mapping>
+
+
+**hibernate multi table
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>cart</div>
+        <form action="first.jsp">
+           user name: <input type="text" name="uname"/><br/>
+            password:<input type="text" name="pword"/><br/>
+            first name:<input type="text" name="fname"/><br/>
+            last name:<input type="text" name="lname"/><br/>
+            email:<input type="text" name="email"/><br/>
+            address:<textarea cols="3" rows="3" ></textarea>
+            <hr/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+
+first.jsp
+
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>first</h1>]
+        <jsp:useBean id="u" scope="session" class="beans.Users"/>
+        <jsp:setProperty property="*" name="u"/>
+        <jsp:useBean id="ud" scope="session" class="beans.Userdata"/>
+        <jsp:setProperty property="*" name="ud"/>
+        <%
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession();
+            s.save(u);
+            s.beginTransaction().commit();
+            s.evict(u);
+            s.save(ud);
+            s.beginTransaction().commit();
+            s.evict(ud);
+            
+        %>
+    </body>
+</html>
+
+
+
+hibernate.cfg.xml
+
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cart</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <mapping resource="beans/users.hbm.xml"/>
+    <mapping resource="beans/userdata.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
+
+
+users.java
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Users {
+    String uname,pword;
+
+    public Users() {
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getPword() {
+        return pword;
+    }
+
+    public void setPword(String pword) {
+        this.pword = pword;
+    }
+    
+}
+
+
+users.hbm.xml
+
+<hibernate-mapping>
+  <class name="beans.Users" table="users">
+  <id name="uname" column="uname"/>
+  <property name="pword" column="pword"/> 
+  </class>
+</hibernate-mapping>
+
+
+userdata.java
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Userdata {
+    String uname,fname,lname,email,address;
+
+    public Userdata() {
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+}
+
+userdata.hbm.xml
+
+<hibernate-mapping>
+  <class name="beans.Userdata" table="userdata">
+      <id name="uname" column="uname"/>
+      <property name="fname" column="fname"/>
+      <property name="lname" column="lname"/>
+      <property name="email" column="email"/>
+      <property name="address" column="address"/>
+  </class>
+</hibernate-mapping>
+
+
+****hibernate ddl-create
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>DDL with hibernate</div>
+        <form action="first.jsp">
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+first.jsp
+
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    
+        <h1>tables created</h1>
+        <%
+            try
+            {
+                Configuration cfg=new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                sf.close();
+            }
+            catch(Exception ex){System.out.println(ex);}
+        %>
+        <%
+            out.print("table created");
+        %>
+    
+</html>
+
+
+Items.java
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Items {
+    String name,price,qty;
+
+    public Items() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+    
+}
+
+
+items.hbm.xml
+
+<hibernate-mapping>
+  <class name="beans.Items" table="items" >
+      <id name="name"/>
+      <property name="price"/>
+      <property name="qty"/>
+  </class>
+</hibernate-mapping>
+
+
+hibernate.cfg.xml
+
+
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cart</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.show_sql">true</property>
+    <mapping resource="beans/items.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
+
+
+op:
+Hibernate: drop table if exists items
+Hibernate: create table items (name varchar(255) not null, price varchar(255), qty varchar(255), primary key (name))
+
+
+****hibernate ddl-update
+
+index,first same as above
+
+Items.java
+  
+same as above just add:
+String xyz;
+public String getXyz() {
+        return xyz;
+    }
+
+    public void setXyz(String xyz) {
+        this.xyz = xyz;
+    }
+
+items.hbm.xml
+
+same as above just add:
+ <property name="xyz"/>
+
+hibernate.cfg.xml
+
+samw as above just replace:
+
+<property name="hibernate.hbm2ddl.auto">update</property>
+
+
+****hibernate ddl-validate
+
+same as project hibernate-ddl-update
+just replace this in hibernate.cfg,xml:
+  <property name="hibernate.hbm2ddl.auto">validate</property>
+op:
+Table found: cart.items
+Columns: [price, qty, name, xyz]
+
+****hibernate ddl-create-drop
+same as project hibernate-ddl-update:
+just replace this in hibernate.cfg,xml:
+<property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+op:
+Hibernate: drop table if exists items
+Hibernate: create table items (name varchar(255) not null, price varchar(255), qty varchar(255), xyz varchar(255), primary key (name))
+Hibernate: drop table if exists items
+
+****hibernate CRUD-insert
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>CRUD Demo</div>
+        <form action="first.jsp">
+            User name:<input type="text" name="uname"/><br/>
+            Password:<input type="text" name="pword"/><br/>
+            <hr/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+
+first.jsp
+
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>CRUD demo</h1>
+        <jsp:useBean id="u" class="beans.Users"  scope="request"/>
+        <jsp:setProperty name="u" property="*"/>
+        
+        <%
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession();
+            s.save(u);
+            Transaction t=s.beginTransaction();
+            t.commit();
+            s.close();
+            sf.close();
+        %>
+    </body>
+</html>
+
+
+Users.java
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Users {
+    String uname,pword;
+
+    public Users() {
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getPword() {
+        return pword;
+    }
+
+    public void setPword(String pword) {
+        this.pword = pword;
+    }
+    
+}
+
+
+users.hbm.xml
+
+<hibernate-mapping>
+  <class name="beans.Users" table="users">
+      <id name="uname" column="uname"/>
+      <property name="pword" column="pword"/>
+  </class>
+</hibernate-mapping>
+
+
+hibernate.cfg.xml
+
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cart?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.show_sql">true</property>
+    <mapping resource="beans/users.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
+
+***hibernate CRUD-update
+
+Users.java,users.hbm.xml,hibernate.cfg.xml same as above
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>CRUD Demo</div>
+        <form action="first.jsp">
+          
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+ first.jsp
+
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>CRUD demo</h1>
+        <jsp:useBean id="u" class="beans.Users"  scope="request"/>
+        <jsp:setProperty name="u" property="uname" value="kk"/>
+        <jsp:setProperty name="u" property="pword" value="kishan"/>
+        <%
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession();
+            s.update(u);
+            Transaction t=s.beginTransaction();
+            t.commit();
+            s.close();
+            sf.close();
+        %>
+    </body>
+</html>
+
+***hibernate CRUD-delete
+
+Users.java,users.hbm.xml,hibernate.cfg.xml same as above
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>CRUD Demo</div>
+        <form action="first.jsp">
+           enter  User name to delete:<input type="text" name="uname"/><br/>
+            <hr/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+first.jsp
+
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>CRUD demo</h1>
+        <jsp:useBean id="u" class="beans.Users"  scope="request"/>
+        <jsp:setProperty name="u" property="uname"/>
+        
+        <%
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession();
+            s.delete(u);
+            Transaction t=s.beginTransaction();
+            t.commit();
+            s.close();
+            sf.close();
+        %>
+    </body>
+</html>
+
+
+***hibernate CRUD-select(single data )(get method)
+
+Users.java,users.hbm.xml,hibernate.cfg.xml same as above
+
+index.html
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>CRUD Demo</div>
+        <form action="first.jsp">
+           enter  User name to see data:<input type="text" name="uname"/><br/>
+            <hr/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>
+
+
+first.jsp
+
+<%@page import="java.io.Serializable"%>
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>CRUD demo</h1><br/>
+        <jsp:useBean id="u" class="beans.Users"  scope="request"/>
+        <%
+           String uname=request.getParameter("uname");
+            Configuration cfg=new Configuration();
+            cfg.configure();
+            SessionFactory sf=cfg.buildSessionFactory();
+            Session s=sf.openSession();
+            Object o=s.get(beans.Users.class,uname);
+            u=(beans.Users)o;
+        %>
+        <jsp:getProperty name="u" property="uname"/>
+        <br/>
+        <jsp:getProperty name="u" property="pword"/>
+        <%
+              s.close();
+              sf.close();
+        %>
+    </body>
+</html>
+
+
+*****hibernate hql insert
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="first.jsp">
+            <input type="submit" value="click me"/>
+        </form>
+    </body>
+</html>
+
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class NewStudent {
+    int id;
+    String name,email,address;
+
+    public NewStudent() {
+    }
+
+    public NewStudent(int id, String name, String email, String address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+}
+
+
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class OldStudent {
+    int id;
+    String name,email,address;
+
+    public OldStudent() {
+    }
+
+    public OldStudent(int id, String name, String email, String address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+}
+
+<hibernate-mapping>
+  <class name="beans.NewStudent" table="newstudent">
+  <id name="id"/>
+  <property name="name"/>
+  <property name="email"/>
+  <property name="address"/>
+  </class>
+</hibernate-mapping>
+
+
+<hibernate-mapping>
+   <class name="beans.OldStudent" table="oldstudent">
+    <id name="id"/>
+    <property name="name"/>
+    <property name="email"/>
+    <property name="address"/>
+   </class>
+</hibernate-mapping>
+
+
+<hibernate-configuration>
+    <session-factory>
+      <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+      <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/clg?zeroDateTimeBehavior=convertToNull</property>
+      <property name="hibernate.connection.username">root</property>
+      <property name="hibernate.connection.password">root</property>
+      <property name="hibernate.hbm2ddl.auto">update</property>
+      <property name="hibernate.show_sql">true</property>
+      <mapping resource="beans/oldstudent.hbm.xml"/>
+      <mapping resource="beans/newstudent.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
+
+
+<%@page import="org.hibernate.Query"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>HQL demo</h1><br/>
+        <%
+            try
+            {
+                 
+                Configuration cfg =new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                Session s=sf.openSession();
+                String hql="insert into NewStudent(id,name,email,address) select s.id,s.name,s.email,s.address from OldStudent s";
+                Query q=s.createQuery(hql);
+                int i=q.executeUpdate();
+		s.beginTransaction().commit();
+                out.print(i);
+            }
+            catch(Exception e){out.print(e);}
+            
+        %>
+    </body>
+</html>
+
+
+***hibernate hql update 
+
+all files same except first.jsp
+
+<%-- 
+    Document   : first
+    Created on : Apr 7, 2017, 7:26:33 PM
+    Author     : kishan nandha
+--%>
+
+<%@page import="org.hibernate.Query"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>HQL demo</h1><br/>
+        <%
+            try
+            {
+                 
+                Configuration cfg =new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                Session s=sf.openSession();
+                String hql="update NewStudent set id=4 where id=3";
+                Query q=s.createQuery(hql);
+                int i=q.executeUpdate();
+                s.beginTransaction().commit();
+                out.print(i);
+                s.close();
+                sf.close();
+            }
+            catch(Exception e){out.print(e);}
+           
+        %>
+    </body>
+</html>
+
+
+****hibernate hql delete 
+ all files same except first.jsp
+
+<%-- 
+    Document   : first
+    Created on : Apr 7, 2017, 7:26:33 PM
+    Author     : kishan nandha
+--%>
+
+<%@page import="org.hibernate.Query"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>HQL demo</h1><br/>
+        <%
+            try
+            {
+                 
+                Configuration cfg =new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                Session s=sf.openSession();
+                String hql="delete NewStudent where id=4";
+                Query q=s.createQuery(hql);
+                int i=q.executeUpdate();
+                s.beginTransaction().commit();
+                out.print(i);
+                s.close();
+                sf.close();
+            }
+            catch(Exception e){out.print(e);}
+           
+        %>
+    </body>
+</html>
+
+
+****hibernate hql select full table
+
+ all files same except first.jsp
+
+<%-- 
+    Document   : first
+    Created on : Apr 7, 2017, 7:26:33 PM
+    Author     : kishan nandha
+--%>
+
+<%@page import="java.util.List"%>
+<%@page import="beans.NewStudent"%>
+<%@page import="org.hibernate.Query"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>HQL demo</h1><br/>
+        <%
+            try
+            {
+                 
+                Configuration cfg =new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                Session s=sf.openSession();
+                String hql="from NewStudent";
+                Query q=s.createQuery(hql);
+                List<NewStudent> l=q.list();
+                for(NewStudent o:l)
+                {
+                   out.println(o.getId());
+                   out.println(o.getName());
+                   out.println(o.getEmail());
+                   out.println(o.getAddress());
+                   
+                }
+                s.close();
+                sf.close();
+            }
+            catch(Exception e){out.print(e);}
+           
+        %>
+    </body>
+</html>
+
+****hibernate hql select one row
+
+
+ all files same except first.jsp
+
+<%-- 
+    Document   : first
+    Created on : Apr 7, 2017, 7:26:33 PM
+    Author     : kishan nandha
+--%>
+
+<%@page import="java.util.List"%>
+<%@page import="beans.NewStudent"%>
+<%@page import="org.hibernate.Query"%>
+<%@page import="org.hibernate.Session"%>
+<%@page import="org.hibernate.SessionFactory"%>
+<%@page import="org.hibernate.cfg.Configuration"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>HQL demo</h1><br/>
+        <%
+            try
+            {
+                 
+                Configuration cfg =new Configuration();
+                cfg.configure();
+                SessionFactory sf=cfg.buildSessionFactory();
+                Session s=sf.openSession();
+                String hql="from NewStudent where id=1";
+                Query q=s.createQuery(hql);
+                Object obj=q.uniqueResult();
+                NewStudent o=(NewStudent)obj;
+                   out.println(o.getId());
+                   out.println(o.getName());
+                   out.println(o.getEmail());
+                   out.println(o.getAddress());
+                s.close();
+                sf.close();
+            }
+            catch(Exception e){out.print(e);}
+           
+        %>
+    </body>
+</html>
+

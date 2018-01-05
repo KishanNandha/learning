@@ -1,0 +1,325 @@
+****type of css
+
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<h1 class="h1">External style sheet</h1><br/>
+	<style type="text/css">h1{color: blue}</style>
+	<h1 >Internal style sheet</h1><br/>
+	<h1 style="color:green">Inline style sheet</h1>
+</body>
+</html>
+
+style.css
+
+
+.h1
+{
+	color: red;
+}
+
+*****css links
+
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	a:link
+	{
+		color:red;
+	}
+	a:visited
+	{
+		color: blue;
+	}
+	a:hover
+	{
+		color: green;
+	}
+	a:active
+	{
+		color: yellow;
+	}
+	</style>
+</head>
+<body>
+	<a href="#">click me</a>
+</body>
+</html>
+
+***css position and z-index
+
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#Header
+		{
+			border: 2px;
+			background-color: teal;
+			width: 100%;
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			z-index: 999;
+		}
+		#footer
+		{
+			border: 2px;
+			background-color: teal;
+			width: 100%;
+			position: fixed;
+			left: 0px;
+			right: 0px;
+			bottom: 0px;
+			z-index: 999;
+		}
+		#content
+		{
+			position: relative;
+			z-index: 1;
+			left: 20px;
+			right: 20px;
+
+		}
+	</style>
+</head>
+<body>
+	<div id="Header"><h1>Header</h1></div>
+	<div id="content">
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+
+
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+
+		<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+
+		<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+
+		<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+		<p>this is paragraph</p><br/>
+
+	</div>
+	<div id="footer"><h1>footer</h1></div>
+</body>
+</html>
+
+***css even odd table
+
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		tr:nth-child(even)
+		{
+			border-color: white;
+		}
+		tr:nth-child(odd)
+		{
+			background-color:blue; 
+		}
+		td
+		{
+			text-align: center;
+		}
+		table
+		{
+			width: 60%;
+		}
+	</style>
+</head>
+<body>
+	<table border="2px">
+		<tr>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+		</tr>
+		<tr>
+			<td>D</td>
+			<td>E</td>
+			<td>F</td>
+		</tr>
+		<tr>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+		</tr>
+		<tr>
+			<td>J</td>
+			<td>K</td>
+			<td>L</td>
+		</tr>
+		<tr>
+			<td>M</td>
+			<td>N</td>
+			<td>O</td>
+		</tr>
+
+	</table>
+</body>
+</html>
+
+****QB 7
+
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#item
+		{
+			width: 60%;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="item"><h1>hello</h1></div> 
+</body>
+</html>
+
+***css backgroundimage 
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body
+		{
+			background: url(1.jpg);
+			background-repeat: repeat;
+		}
+	</style>
+</head>
+<body>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+
+
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+
+	<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+
+	<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+
+	<p>this is paragraph</p><br/><p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+	<p>this is paragraph</p><br/>
+
+</body>
+</html>
+
+
+***css QB-4
+
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		table{background-color: red;border:1px ;width: 30%}
+		td{text-align: center}
+	</style>
+</head>
+<body>
+	<table border="1px">
+		<tr>
+			<td>A</td>
+			<td>B</td>
+			<td>C</td>
+			<td rowspan="3">D</td>
+		</tr>
+		<tr>
+			<td>E</td>
+			<td colspan="2">F</td>
+		</tr>
+		<tr>
+			<td>G</td>
+			<td>H</td>
+			<td>I</td>
+		</tr>
+	</table>
+</body>
+</html>

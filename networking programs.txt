@@ -1,0 +1,285 @@
+*****TCPServer Demo
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class TCPServer {
+    public static void main(String[] args)
+    {
+        try
+        {
+            ServerSocket ss=new ServerSocket(1996);
+            System.out.println("waiting for clients.....");
+            Socket s=ss.accept();
+            System.out.print("client connected:");
+            System.out.println(s.getRemoteSocketAddress());
+            InputStream is=s.getInputStream();
+            OutputStream os=s.getOutputStream();
+            DataInputStream dis=new DataInputStream(is);
+            DataOutputStream dos=new DataOutputStream(os);
+            
+            dis.close();
+            dos.close();
+            is.close();
+            os.close();
+            s.close();
+            ss.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+       
+            
+    }
+}
+
+
+*****TCPClient
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class TCPClient {
+     public static void main(String[] args)
+    {
+        try
+        {
+            Socket s=new Socket("localhost",1996);
+            InputStream is=s.getInputStream();
+            OutputStream os=s.getOutputStream();
+            DataInputStream dis=new DataInputStream(is);
+            DataOutputStream dos=new DataOutputStream(os);
+            
+            dis.close();
+            dos.close();
+            is.close();
+            os.close();
+            s.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+        
+            
+    }
+}
+
+
+****QB 3
+
+server:
+
+ String str=dis.readUTF();
+            int chars,digits,words,spaces;
+            chars=digits=spaces=0;
+            words=1;
+            char[] c=str.toCharArray();
+            for (char ch : c) 
+            {
+               if(ch==' ')
+               {
+                    words++;
+               }  
+               if(ch>='a' && ch<='z')
+               {
+                   chars++;
+               }
+               if(ch>='A' && ch<='Z')
+               {
+                   chars++;
+               }
+               if(ch>='0' && ch<='9')
+               {
+                   digits++;
+               }
+            }
+            String str1="number of words: "+words+" numbers of chars: "+chars+" numbers of digits: "+digits+"";
+            dos.writeUTF(str1);
+
+Client::
+            Scanner sc=new Scanner(System.in);
+            System.out.println("enter string");
+            String str=sc.nextLine();
+            dos.writeUTF(str);
+            System.out.println(dis.readUTF());
+
+
+****QB 4
+
+server
+    System.out.println(dis.readUTF());
+
+client
+
+Scanner sc=new Scanner(System.in);
+            System.out.println("enter string");
+            String str=sc.nextLine();
+            dos.writeUTF(str);
+
+
+*****QB 10
+
+server:
+            Date d=new Date();
+            dos.writeUTF(d.toString());
+client:
+	System.out.println(dis.readUTF());
+
+******QB 7,11
+
+server::
+
+String str=dis.readUTF();
+            StringBuffer sb=new StringBuffer(str);
+            String strr=sb.reverse().toString();
+            String strf="";
+            char[] c=strr.toCharArray();
+            for(char ch :c)
+            {
+                if(ch>='a' && ch<='z')
+                {
+                   strf+=Character.toUpperCase(ch);
+                }
+                else if(ch>='A' && ch<='Z')
+                {
+                    strf+=Character.toLowerCase(ch);
+                }
+                else
+                {
+                    strf+=ch;
+                }   
+            }
+            dos.writeUTF(strf);
+
+client::
+
+System.out.print(s.getLocalAddress()+"/");
+            System.out.println(s.getLocalPort());
+            System.out.println("enter string");
+            Scanner sc=new Scanner(System.in);
+            String str=sc.nextLine();
+            dos.writeUTF(str);
+            System.out.println(dis.readUTF());
+
+****UDPSender
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class UDPSender
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            int sport=1996;
+            int rport=1997;
+            InetAddress sip=InetAddress.getLocalHost();
+            DatagramSocket ds=new DatagramSocket(sport,sip);
+            String str="hello kishan";
+            byte[] data=str.getBytes();
+            DatagramPacket dp=new DatagramPacket(data,data.length,sip,rport);
+            ds.send(dp);
+            ds.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+    } 
+}
+
+****UDPReciver
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class UDPServer 
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            int sport=1996;
+            int rport=1997;
+            InetAddress sip=InetAddress.getLocalHost();
+            DatagramSocket ds=new DatagramSocket(1997,sip);
+            byte[] data=new byte[1024];
+            DatagramPacket dp=new DatagramPacket(data,data.length,sip,sport);
+            ds.receive(dp);
+            String str=new String(data);
+            System.out.println(str.toUpperCase());
+            ds.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+    }
+}
+
+****QB 8
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class UDPClient
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            int sport=1996;
+            int rport=1997;
+            InetAddress sip=InetAddress.getLocalHost();
+            DatagramSocket ds=new DatagramSocket(sport,sip);
+            String str="hello kishan";
+            byte[] data=str.getBytes();
+            DatagramPacket dp=new DatagramPacket(data,data.length,sip,rport);
+            ds.send(dp);
+            byte[] data2=new byte[1024]; 
+            DatagramPacket dp2=new DatagramPacket(data2,data2.length,sip,sport);
+            String strr=new String(data2);
+            System.out.println(strr);
+            ds.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+    }
+    
+    
+}
+
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+public class UDPServer 
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            int sport=1996;
+            int rport=1997;
+            InetAddress sip=InetAddress.getLocalHost();
+            DatagramSocket ds=new DatagramSocket(rport,sip);
+            byte[] data=new byte[1024];
+            DatagramPacket dp=new DatagramPacket(data,data.length,sip,sport);
+            ds.receive(dp);
+            String str=new String(data);
+            String strr=str.toUpperCase();
+            byte[] data2=strr.getBytes();
+            DatagramPacket dp2=new DatagramPacket(data2,data2.length,sip,rport);
+            ds.send(dp2);
+            ds.close();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+    }
+}
+

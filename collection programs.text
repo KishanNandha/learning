@@ -1,0 +1,704 @@
+*****ArrayList demo
+package List;
+
+import java.util.*;
+
+public class ArrayListDemo {
+
+	public static void main(String[] args) {
+		ArrayList al=new ArrayList();
+		al.add("A");
+		al.add("A");
+		al.add(10);
+		al.add(null);
+		System.out.println(al);
+		al.remove(2);
+		al.add(1,"B");
+		System.out.println(al);
+	}
+
+}
+output:
+[A, A, 10, null]
+[A, B, A, null]
+
+*****ArrayListGenerics
+
+package List;
+
+import java.util.*;
+
+public class ArrayListGeneric {
+
+	public static void main(String[] args) {
+		ArrayList<String> al=new ArrayList<String>();
+		al.add("kishan");
+		al.add("nandha");
+		al.add("computer");
+		System.out.println(al);
+	
+	}
+
+}
+
+
+******ArrayListSync
+
+package List;
+
+import java.util.*;
+
+public class ArrayListSync {
+
+	public static void main(String[] args) {
+		ArrayList al=new ArrayList();
+		List l=Collections.synchronizedList(al);
+		l.add("kishan");
+		l.add("nandha");
+		System.out.println(l);
+	
+	}
+
+}
+
+****LinkedListDemo
+
+package List;
+
+import java.util.LinkedList;
+
+public class LinckedListDemo {
+
+	public static void main(String[] args) {
+		LinkedList ll=new LinkedList();
+		ll.add("kishan");
+		ll.add("nandha");
+		ll.add(20);
+		ll.add(30);
+		System.out.println(ll);
+		ll.set(0,"kishankumar");
+		ll.remove(2);
+		ll.removeLast();
+		ll.addFirst("mr.");
+		System.out.println(ll);
+		
+	}
+
+}
+output:
+[kishan, nandha, 20, 30]
+[mr., kishankumar, nandha]
+
+*****LinkedListGeneric
+package List;
+
+import java.util.LinkedList;
+
+public class LinkedListGeneric {
+
+	public static void main(String[] args) {
+		LinkedList<String> ll=new LinkedList<String>();
+		ll.add("kishan");
+		ll.add("nandha");
+		System.out.println(ll);
+		
+	}
+
+}
+
+******************Enumeration demo *********8
+package Cursor;
+
+import java.util.Enumeration;
+import java.util.Vector;
+
+public class EnumerationDemo {
+
+	public static void main(String[] args) {
+		Vector v=new Vector();
+		for(int i=0;i<=10;i++)
+		{
+			v.addElement(i);
+		}
+		Enumeration e= v.elements();
+		while(e.hasMoreElements())
+			{
+				Integer i=(Integer)e.nextElement();
+				System.out.println(i);
+			}
+	}
+
+}
+
+*********************Iterator demo***********
+package Cursor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Iteratordemo {
+
+	public static void main(String[] args) {
+		ArrayList al=new ArrayList();
+		al.add("kishan");
+		al.add("naNDHA");
+		Iterator i=al.iterator();
+		while(i.hasNext())
+		{
+			System.out.println(i.next());
+		}
+	}
+
+}
+
+
+*****************ListIterator demo**************************88
+
+package Cursor;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class ListIteratorDemo {
+
+	public static void main(String[] args) {
+		LinkedList ll=new LinkedList();
+		ll.add("ms");
+		ll.add("dhoni");
+		Iterator i=ll.iterator();
+		while(i.hasNext())
+		{
+			System.out.println(i.next());
+		}
+	}
+
+}
+
+
+*************hashset demo**************
+package Set;
+
+import java.util.HashSet;
+
+public class HashSetDemo {
+
+	public static void main(String[] args) {
+		HashSet hs=new HashSet();
+		hs.add("kishan");
+		hs.add("nandha");
+		hs.add(9);
+		hs.add("kishan");
+		System.out.println(hs);
+	}
+
+}
+
+***********LinkedHashSet demo******
+
+package Set;
+
+import java.util.LinkedHashSet;
+
+public class LinkedHashSetDemo {
+
+	public static void main(String[] args) {
+		LinkedHashSet lhs=new LinkedHashSet();
+		lhs.add("kishan");
+		lhs.add("nandha");
+		lhs.add(9);
+		System.out.println(lhs);
+	}
+
+}
+
+
+************TreeSet demo*******************
+
+package Set;
+
+import java.util.TreeSet;
+
+public class TreeSetDemo {
+
+	public static void main(String[] args) {
+		TreeSet ts= new TreeSet();
+		ts.add("kishdfdfran");
+		ts.add("nandha");
+		ts.add("jhashdjasnbj");
+		System.out.println(ts);
+	}
+
+}
+
+************Comparable Demo*******************
+
+
+public class ComparableDemo {
+
+	public static void main(String[] args) {
+		System.out.println("a".compareTo("b"));
+		System.out.println("b".compareTo("a"));
+		System.out.println("a".compareTo("a"));
+		System.out.println("z".compareTo("a"));//25 as diff is 25 chars
+	}
+
+}
+
+
+
+***************Comparatoe Demo***********************
+
+package Comparable_and_Comparator;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class ComparatorDemo {
+
+	public static void main(String[] args) {
+		TreeSet ts1=new TreeSet();
+		ts1.add(1);
+		ts1.add(2);
+		ts1.add(3);
+		ts1.add(4);
+		ts1.add(5);
+		System.out.println(ts1);//1,2,3,4,5
+		TreeSet ts2=new TreeSet(new MyComparator());
+		ts2.add(1);
+		ts2.add(2);
+		ts2.add(3);
+		ts2.add(4);
+		ts2.add(5);
+		System.out.println(ts2);//1,2,3,4,5
+		TreeSet ts3=new TreeSet(new MyComparator2());
+		ts3.add(1);
+		ts3.add(2);
+		ts3.add(3);
+		ts3.add(4);
+		ts3.add(5);
+		System.out.println(ts3);//5,4,3,2,1
+	}
+
+}
+class MyComparator implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		Integer i1=(Integer)obj1;
+		Integer i2=(Integer)obj2;
+		if(i1 > i2)
+		{
+			return i1.compareTo(i2);
+		}
+		else if(i2 < i1)
+		{
+			return i2.compareTo(i1);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}
+
+class MyComparator2 implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		Integer i1=(Integer)obj1;
+		Integer i2=(Integer)obj2;
+		if(i1 > i2)
+		{
+			return i2.compareTo(i1);
+		}
+		else if(i2 < i1)
+		{
+			return i1.compareTo(i2);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}
+
+******************* Insertion Order *******************
+
+package Comparable_and_Comparator;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class Insertion_Order {
+
+	public static void main(String[] args) {
+		TreeSet ts1=new TreeSet(new MyComparator3());
+		ts1.add(4);
+		ts1.add(2);
+		ts1.add(1);
+		ts1.add(5);
+		ts1.add(3);
+		System.out.println(ts1);//4,2,1,5,3
+		TreeSet ts2=new TreeSet(new MyComparator4());
+		ts2.add(4);
+		ts2.add(2);
+		ts2.add(1);
+		ts2.add(5);
+		ts2.add(3);
+		System.out.println(ts2);//3,5,1,2,4
+	}
+
+}
+class MyComparator3 implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		return +1;
+	}
+}
+class MyComparator4 implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		return -1;
+	}
+}
+
+***************StringBuffer Comparator*********************************
+
+package Comparable_and_Comparator;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class StringBuffer_Comparator {
+
+	public static void main(String[] args) {
+		TreeSet ts1=new TreeSet(new MyComparator5());
+		ts1.add(new StringBuffer("kishan"));
+		ts1.add(new StringBuffer("nandha"));
+		ts1.add(new String("ms dhoni"));
+		ts1.add(new StringBuffer("virat"));
+		System.out.println(ts1);
+	}
+
+}
+class MyComparator5 implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		String s1=obj1.toString();
+		String s2=obj2.toString();
+		return s1.compareTo(s2);
+	}
+}
+
+
+******************W.A.P to sort String as Length of string .if lengths are equal then sort according to default sorting order**************
+
+package Comparable_and_Comparator;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class StringLengthSorting {
+	
+	public static void main(String[] args) {
+		TreeSet ts1=new TreeSet(new MyComparator6());
+		ts1.add(new StringBuffer("kishan"));
+		ts1.add(new StringBuffer("nandha"));
+		ts1.add(new StringBuffer("ms dhoni"));
+		ts1.add(new StringBuffer("virat"));
+		System.out.println(ts1);
+	}
+
+}
+class MyComparator6 implements Comparator<Object>
+{
+	public int compare(Object obj1,Object obj2)
+	{
+		String s1=obj1.toString();
+		String s2=obj2.toString();
+		int l1=s1.length();
+		int l2=s2.length();
+		if(l1 < l2)
+		{
+			return -1;
+		}
+		else if(l2 > l1)
+		{
+			return 1;
+		}
+		else
+		{
+			return s1.compareTo(s2);
+		}
+	}
+}
+
+
+******W.A.P. to create class employee containing eid,ename, and salary.define default sorting based on eid.
+	define custom sorting on salary and if two salary is same than follow default sorting order. ***************************************************
+
+package Comparable_and_Comparator;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+class Employee implements Comparable
+{
+	int eid;
+	String ename;
+	int salary;
+	public Employee(int eid, String ename, int salary) {
+		super();
+		this.eid = eid;
+		this.ename = ename;
+		this.salary = salary;
+	}
+	public int compareTo(Object obj)
+	{
+		Employee e=(Employee)obj;
+		if(this.eid < e.eid)
+		{
+			return -1;
+		}
+		else if(this.eid > e.eid)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	public String toString()
+	{
+		return "["+this.eid+","+this.ename+","+this.salary+"]";
+	}
+}
+class MyCustomComparator implements Comparator
+{
+	public int compare(Object obj1,Object obj2) 
+	{
+		Employee e1=(Employee)obj1;
+		Employee e2=(Employee)obj2;
+		if(e1.salary > e2.salary)
+		{
+			return -1;
+		}
+		else if(e1.salary < e2.salary)
+		{
+			return 1;
+		}
+		else
+		{
+			return e1.compareTo(e2);
+		}
+	}
+}
+public class CustomSorting {
+
+	public static void main(String[] args) {
+		TreeSet ts=new TreeSet(new MyCustomComparator());
+		ts.add(new Employee(2,"kishan",9999));
+		ts.add(new Employee(1,"ms dhoni",8888));
+		ts.add(new Employee(4,"virat",7777));
+		ts.add(new Employee(3,"rohit",7777));
+		System.out.println(ts);
+	}
+
+}
+
+
+**********************HashMap Demo******************
+
+package Map;
+
+import java.util.HashMap;
+
+public class HashMapDemo {
+
+	public static void main(String[] args) {
+		HashMap hm=new HashMap();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		System.out.println(hm);
+		hm.remove(3);
+		System.out.println(hm);
+	}
+
+}
+
+**************HashMap generic*****************
+
+package Map;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+public class HashMapGeneric {
+
+	public static void main(String[] args) {
+		HashMap<Integer,String> hm=new HashMap<Integer,String>();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		System.out.println(hm);
+		hm.remove(3);
+		for(Entry<Integer, String> m:hm.entrySet())
+		{
+			System.out.println(m.getKey()+" "+m.getValue());
+		}
+	}
+
+}
+
+**************Iterating Map**********************
+
+package Map;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class IteratingMap {
+
+	public static void main(String[] args) {
+		HashMap<Integer,String> hm=new HashMap<Integer,String>();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		hm.remove(3);
+		Set s=hm.entrySet();
+		Iterator i=s.iterator();
+		while(i.hasNext())
+		{
+			Entry m=(Entry)i.next();
+			System.out.println(m.getKey()+" "+m.getValue());
+		}
+		System.out.println("another method:");
+		for(Entry e:hm.entrySet())
+		{
+			System.out.println(e.getKey()+" "+e.getValue());
+		}
+	}
+
+}
+
+
+****************LinkedHashMap Demo
+
+package Map;
+
+import java.util.LinkedHashMap;
+
+public class LinkedHashMapDemo {
+
+	public static void main(String[] args) {
+		LinkedHashMap hm=new LinkedHashMap();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		System.out.println(hm);
+		hm.remove(3);
+		System.out.println(hm);
+	}
+
+}
+
+
+
+******************TreeMap *************************************************
+package Map;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class TreeMap {
+
+	public static void main(String[] args) {
+		Map<Integer,String> hm=(Map<Integer, String>) new TreeMap();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		System.out.println(hm);
+		hm.remove(3);
+		System.out.println(hm);
+	}
+
+}
+
+
+***********************Hashtable Demo********************************
+
+package Map;
+
+import java.util.Hashtable;
+
+public class HashTableDemo {
+
+	public static void main(String[] args) {
+		Hashtable hm=new Hashtable();
+		hm.put(1,"kishan");
+		hm.put(2,"nandha");
+		hm.put(3,"dfdfdfddd");
+		System.out.println(hm);
+		hm.remove(3);
+		System.out.println(hm);
+	}
+
+}
+
+*********************Properties Demo **************************************************
+
+files.properties
+
+user=kishan nandha
+password=root
+
+class:
+
+package Map;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+public class PropertiesDemo {
+
+	public static void main(String[] args) throws IOException {
+		FileReader r=new FileReader("file.properties");
+		Properties p=new Properties();
+		p.load(r);
+		System.out.println(p.getProperty("user"));
+		System.out.println(p.getProperty("password"));
+	}
+
+}
+
+
+
+**********W.A.P. to print all system info. using Properties*****************
+
+package Map;
+
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+
+public class SystemINFO {
+
+	public static void main(String[] args) {
+		Properties p=System.getProperties();
+		for(Entry m:p.entrySet())
+		{
+			System.out.println(m.getKey()+"=>"+m.getValue());
+		}
+	}
+
+}
+

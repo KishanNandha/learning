@@ -1,0 +1,559 @@
+****QB 2
+<html>
+ <head> 
+ <script type="text/javascript"> 
+ var num=23; 
+ var num1,num2,result; num1=Math.floor(num/10);
+  num2=Math.floor(num%10); result=1; 
+  for(i=1;i<=num2;i++)
+   { 
+   	result=result*num1 
+   } 
+document.write("RESULT = "+result);
+ </script> 
+ </head>
+  <body> 
+  </body> 
+  </html
+
+*******QB-4 india 
+
+<html>
+<body>
+<script>
+var str="INDIA"
+var k=str.length;
+for(i=0;i<=k;i+=2)
+{
+n=str.charAt(i);
+document.write(n + "</br>");
+document.write("");
+}
+</script>
+</body>
+</html>
+
+***popup in javascript
+
+
+<!DOCTYPE html>
+<html>
+<body>
+<script type="text/javascript">alert("Click the button to display a confirm box.");</script>
+
+<button onclick="myFunction()">Try it</button>
+<script>
+function myFunction() 
+{
+confirm("Press a button!");
+ans=prompt("do you like Javascript?");
+if(ans=="yes")
+{
+document.write("okay");
+}
+else
+{
+document.write("oh dear");
+}
+}
+</script>
+</body>
+</html>
+
+***QB-7 birthday
+
+<html>
+<head></head>
+<body>
+	<script type="text/javascript">
+		
+			
+			var m=prompt("enter birthday month");
+			var d=prompt("enter birth day");
+			var date=new Date();
+			var cd=date.getDay();
+			var cm=date.getMonth();
+			function bday()
+			{
+				if((m-cm)<0)
+				{
+					document.write("birthday month is gone..try next year ..");
+				}
+				else
+				{
+					document.write("months left "+(m-cm));
+					document.write("<br/>");
+					document.write("days left "+(d-cd));
+				}
+				
+			}
+	</script>
+	
+	<button onclick="bday()">howmuchleft!!!!!!!</button>
+</body>
+</html>
+
+***QB 8 word search
+
+<html>
+<head></head>
+<body>
+	<script type="text/javascript">
+		function p()
+		{
+			var a=new Array("my","name","is","kishan");
+			for(var i=0;i<=a.length;i++)
+				{
+					var s1="kishan";
+					var s2=a[i].toString();
+					if(s2==s1)
+					document.write(i);
+					
+				}
+			
+		}
+		
+		
+	</script>
+	
+	<button onclick="p()">click me</button>
+</body>
+</html>
+
+
+*****object in js
+
+<head>
+<title>User-defined objects</title>
+<script type="text/javascript">
+var book = new Object();   // Create the object
+    book.subject = "Perl"; // Assign properties to the object
+    book.author  = "Mohtashim";
+</script>
+</head>
+<body>
+<script type="text/javascript">
+   document.write("Book name is : " + book.subject + "<br>");
+   document.write("Book author is : " + book.author + "<br>");
+</script>
+</body>
+</html>
+
+
+****constructor in js
+
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function person(name,age)
+		{
+			this.name=name;
+			this.age=age;
+		}
+		var kishan=new person("kishan nandha",21);
+		document.write(kishan.name);
+		document.write("<br/>");
+		document.write(kishan.age);
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
+
+
+***QB 13 n odd divide by 7
+
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		var n=prompt("enter number");
+		for(var i=0;i<=n;i++)
+		{
+			if(i%2!=0 && i%7==0)
+			{
+				document.write(i+"<br/>");
+			}
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
+
+
+****js type of array
+
+<html>
+<head></head>
+<body>
+	<h1>simple array</h1>
+		<script type="text/javascript">
+		var a=new Array("kishan","dee","dhvanan","karan");
+				for(i=0;i<3;i++)
+				{
+					document.write(a[i]+"<br>");
+				}
+		</script>
+	<h1>dynamic array</h1>
+		<script type="text/javascript">
+			var stuff=new Array();
+			stuff[0]="hi";
+			stuff[1]="hello"
+			//no limit
+			for(i=0;i<2;i++)
+					{
+						document.write(stuff[i]+"<br>");
+					}
+		</script>
+	<h1>associative array</h1>
+		<script type="text/javascript">
+			var kishan=new Array();
+			kishan["color"]="blue";
+			kishan["age"]="21";
+			kishan["food"]="sandwich";
+			document.write(kishan["color"]+"<br>");
+			document.write(kishan["age"]+"<br>");
+			document.write(kishan["food"]+"<br>");
+		</script>		
+</body>
+</html>
+
+
+***Dom form elements
+
+<html>
+<head>
+	<title></title>
+	
+</head>
+<body>
+	
+	<form name="form1">
+	
+		Name:<input type="text" name="name1"/><br/>
+		Password:<input type="text" name="pword1"><br/>
+		<button onclick="a()">Submit</button>
+
+	</form>
+	<script type="text/javascript">
+			function a()
+			{
+				var x=document.form1.name1;
+				var y=document.form1.pword1;
+				document.write(x.value);
+				document.write("<br/>");
+				document.write(y.value);
+
+			
+			}
+		</script>
+</body>
+</html>
+
+*****QB 4 events
+
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		function down()
+		{
+			var x=document.getElementsByTagName('body');
+			x[0].style.backgroundColor="red";
+		}
+		function up()
+		{
+			var x=document.getElementsByTagName('body');
+			x[0].style.backgroundColor="yellow";
+		}
+	</script>
+	<button onmousedown="down()" onmousemove="up()">click</button>
+</body>
+</html>
+
+****QB 7 event (not working)
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function fun1(e)
+		{
+			document.body.style.backgroundColor="white";
+			var chr=String.fromCharCode(e.keyCode);
+			alert(e.keyCode);
+			if(char=='A' ||char=='E' ||char=='I' ||char=='O' ||char=='U' ||char=='a' ||char=='e' ||char=='i' ||char=='o' ||char=='u' ||)
+			{
+				alert("it is vowel");
+			}
+
+		}
+		function fun2()
+		{
+			document.body.style.backgroundColor="blue";
+		}
+	</script>
+</head>
+<body>
+	<form name="form1">
+		<input type="text" name="char"/>
+		<button onkeydown="fun1(event)" onkeyup="fun2()">click</button>
+	</form>
+</body>
+</html>
+
+
+***events 
+
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function uload()
+		{
+			alert("bye bye");
+		}
+		function min()
+		{
+			document.getElementById('id').style.color="yellow";
+		}
+		function mout()
+		{
+			document.getElementById('id').style.color="black";
+		}
+	</script>
+</head>
+<body onunload="uload()">
+	<h1 id="id" onmouseover="min()" onmouseout="mout()">helloo</h1>
+</body>
+</html>
+
+
+****xy co ordinate (not working)
+
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function fun()
+		{
+			var s="X="+window.event.clientX +" Y="+window.event.clientY;
+			document.getElementById('Myid').innerText=s;
+		}
+		
+	</script>
+</head>
+<body onmouseover=fun()>
+	<div id="Myid"></div> 
+</body>
+</html>
+
+***prime QB 8
+
+<html>
+ <head> 
+ <script type="text/javascript">
+var n=prompt("Enter any value");
+for(i=2;i<n;i++) 
+	{ 
+		if(n%i==0) 
+			{ 
+				flag=1; break;
+			 } 
+		else
+		 { 
+		 	flag=0; 
+		 } 
+	}
+if(flag==0)
+ { 
+ 	document.write("Number is prime");
+ 	 }
+ 	 else
+{
+document.write("number is not prime");
+} 
+</script>
+</head> 
+<body> 
+</body>
+ </html>
+
+****QB 5 click me
+
+<html>
+<head>
+	<title></title>\
+	<script type="text/javascript">
+		function fun()
+		{
+			alert("you clicked me");
+		}
+	</script>
+</head>
+<body>
+	<button onclick="fun()">click me</button>
+</body>
+</html>
+
+
+***qb 4 fibo
+
+<html> 
+<head>
+ <script type="text/javascript">
+  var num=prompt("Enter any value");
+   var i=0; 
+   var j=1;
+    document.write(j);
+     for(k=2;k<=num;k++) 
+     	{ 
+     		result=i+j; i=j;
+     		 j=result;
+     		  document.write(" "+result);
+     		   } 
+    </script>
+
+     </head> 
+    <body> 
+  </body> 
+  </html>
+
+******QB7
+
+<html>
+ <head>
+  <script type="text/javascript">
+var str=prompt("Enter any value");
+ num=str.indexOf('a');
+  if(num!=-1) 
+  {
+document.write("First Index of  a:"+(num+1) );
+num1=str.lastIndexOf("a"); 
+document.write("<br>"+"Last Index of a:" +(num1+1) );
+num2=str.substring(num+1,num1);
+ document.write("<br>"+"String between them: "+num2);
+} 
+else 
+{
+document.write("no vovels are available");
+}
+</script>
+</head> 
+<body>
+ </body> 
+ </html>
+
+****QB 2
+
+<html>
+ <head>
+ <script type="text/javascript"> 
+var num=prompt("Enter any value");
+ if(num%2==0)
+ { 
+document.write("Number is even");
+
+} 
+else
+ {
+document.write("Number is odd");
+}
+ </script>
+ </head>
+ <body> 
+</body> 
+</html>
+
+
+****basic validation 
+
+<html>
+   
+   <head>
+      <title>Form Validation</title>
+      
+      <script type="text/javascript">
+        function validate()
+      {
+      
+         if( document.myForm.Name.value == "" )
+         {
+            alert( "Please provide your name!" );
+            document.myForm.Name.focus() ;
+            return false;
+         }
+         
+         if( document.myForm.EMail.value == "" )
+         {
+            alert( "Please provide your Email!" );
+            document.myForm.EMail.focus() ;
+            return false;
+         }
+         
+         if( document.myForm.Zip.value == "" ||
+         isNaN( document.myForm.Zip.value ) ||
+         document.myForm.Zip.value.length != 5 )
+         {
+            alert( "Please provide a zip in the format #####." );
+            document.myForm.Zip.focus() ;
+            return false;
+         }
+         
+         if( document.myForm.Country.value == "-1" )
+         {
+            alert( "Please provide your country!" );
+            return false;
+         }
+         return( true );
+      }
+      </script>
+      
+   </head>
+   
+   <body>
+      <form action="/cgi-bin/test.cgi" name="myForm" onsubmit="return(validate());">
+         <table cellspacing="2" cellpadding="2" border="1">
+            
+            <tr>
+               <td align="right">Name</td>
+               <td><input type="text" name="Name" /></td>
+            </tr>
+            
+            <tr>
+               <td align="right">EMail</td>
+               <td><input type="text" name="EMail" /></td>
+            </tr>
+            
+            <tr>
+               <td align="right">Zip Code</td>
+               <td><input type="text" name="Zip" /></td>
+            </tr>
+            
+            <tr>
+               <td align="right">Country</td>
+               <td>
+                  <select name="Country">
+                     <option value="-1" selected>[choose yours]</option>
+                     <option value="1">USA</option>
+                     <option value="2">UK</option>
+                     <option value="3">INDIA</option>
+                  </select>
+               </td>
+            </tr>
+            
+            <tr>
+               <td align="right"></td>
+               <td><input type="submit" value="Submit" /></td>
+            </tr>
+            
+         </table>
+      </form>
+      
+   </body>
+</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

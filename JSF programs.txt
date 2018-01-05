@@ -1,0 +1,220 @@
+**** jsf demo
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputLabel value="Enter name:"/><br/>
+            <h:inputText value="#{s.name}"/><br/>
+            <h:outputLabel value="Enter Password:"/><br/>
+            <h:inputSecret value="#{s.password}"/><br/>
+            <h:commandButton value="submit" action="f"/>
+        </h:form>
+    </h:body>
+</html>
+
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+         <h:outputLabel value="#{s.name}" /><br/>
+         <h:outputLabel value="#{s.password}" /><br/>
+    </h:body>
+
+</html>
+
+
+package beans;
+import javax.faces.bean.*;
+
+
+/**
+ *
+ * @author kishan nandha
+ */
+@ManagedBean(name="s")
+@RequestScoped
+public class Student {
+   String name,password;
+
+    public Student() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+   
+}
+
+
+jsf validations
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputLabel value="Enter name:"/><br/>
+            <h:inputText value="#{s.name}" id="name">
+                <f:validateRequired/>
+            </h:inputText><br/>
+            <h:outputLabel value="Enter Password:"/><br/>
+            <h:inputSecret value="#{s.password}">
+                <f:validateLength minimum="5" maximum="30"/>
+                <f:validateRequired/>
+            </h:inputSecret><br/>
+            <h:outputLabel value="Enter age:"/><br/>
+            <h:inputText value="">
+                <f:validateLongRange minimum="18" maximum="30"/>
+                <f:validateRequired/>
+            </h:inputText><br/>
+            <h:outputLabel value="enter email:"/><br/>
+            <h:inputText value="">
+                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                <f:validateRequired />
+            </h:inputText>
+            <h:outputLabel value="Address" for="address"/><br/>
+            <h:inputTextarea id="address" cols="5" rows="5" >
+                <f:validateRequired/>
+                </h:inputTextarea><br/>
+            <h:commandLink action="www.google.com" value="click "/>
+            <h:inputHidden value="kishan"/>
+            <h:commandButton value="submit" action="f"/>
+        </h:form>
+    </h:body>
+</html>
+
+JSF navigation
+
+index.xhtml
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputLabel value="Username:"/>
+            <h:inputText id="uname" value="#{u.uname}" /><br/>    
+            <h:outputLabel value="Password:"/>
+            <h:inputSecret id="pword" value="#{u.pword}" /><br/>  
+            <h:commandButton value="Login" action="#{u.checkUser}"/>
+    </h:form>
+    </h:body>
+</html>
+
+
+User.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package beans;
+
+/**
+ *
+ * @author kishan nandha
+ */
+public class Users {
+    String uname,pword;
+
+    public Users() {
+    }
+
+    public Users(String uname, String pword) {
+        this.uname = uname;
+        this.pword = pword;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getPword() {
+        return pword;
+    }
+
+    public void setPword(String pword) {
+        this.pword = pword;
+    }
+    public String checkUser()
+    {
+        if(uname.equals("admin"))
+            return "success";
+        else
+            return "fail";
+    }
+}
+
+
+faces-congig.xml
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+               <managed-bean>
+                   <managed-bean-name>u</managed-bean-name>
+                   <managed-bean-class>beans.Users</managed-bean-class>
+                   <managed-bean-scope>request</managed-bean-scope>
+               </managed-bean>
+              <navigation-rule>
+                  <from-view-id>/index.xhtml</from-view-id>
+                  <navigation-case>
+                      <form-outcome>success</form-outcome>
+                      <to-view-id>/first.xhtml</to-view-id>
+                  </navigation-case>
+                  <navigation-case>
+                      <form-outcome>fail</form-outcome>
+                      <to-view-id>/index.xhtml</to-view-id>
+                  </navigation-case>
+              </navigation-rule>
+</faces-config>
+
+
+first.xhtml
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:outputLabel value="#{u.uname}"/>
+    </h:body>
+</html>
+
