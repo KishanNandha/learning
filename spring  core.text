@@ -1,0 +1,2526 @@
+*****constructor injection with one field
+employee.java
+
+package beans;
+
+public class Employee {
+	private int id;
+	private String name;
+
+	
+	public Employee(int id) {
+		super();
+		this.id = id;
+	}
+
+
+	public String show()
+	{
+		return "id= "+id+" name= "+name;
+	}
+}
+
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	   <bean id = "empp" class = "beans.Employee">
+   			<constructor-arg value="10" type="int"></constructor-arg>
+    	</bean>
+</beans>
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e=context.getBean("empp",Employee.class);
+		//call method
+		System.out.println(e.show());		
+		//close the context
+		context.close();
+	}
+
+}
+
+
+*****Constructor injection with more than one field
+employee.java
+
+package beans;
+
+public class Employee {
+	private int id;
+	private String name;
+
+	
+	public Employee(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+	public String show()
+	{
+		return "id= "+id+" name= "+name;
+	}
+}
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	   <bean id = "empp" class = "beans.Employee">
+   			<constructor-arg value="10" type="int"></constructor-arg>
+   			<constructor-arg value="kishan" type="java.lang.String"></constructor-arg>
+   		   </bean>
+</beans>
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e=context.getBean("empp",Employee.class);
+		//call method
+		System.out.println(e.show());		
+		//close the context
+		context.close();
+	}
+
+}
+
+
+****setter injection
+
+employee.java
+
+package beans;
+
+public class Employee {
+	private int id;
+	private String name;
+	public Employee() {
+		//default constructor
+		System.out.println("inside default constructor");
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+		System.out.println("inside setter method");
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String show()
+	{
+		return "id= "+id+" name= "+name;
+	}
+}
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	   <bean id = "emp" class = "beans.Employee">
+   		<property name="id">
+   			<value>10</value>
+   		</property>
+   		<property name="name">
+   			<value>kishan</value>
+   		</property>
+   </bean>
+</beans>
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e=context.getBean("emp",Employee.class);
+		//call method
+		System.out.println(e.show());		
+		//close the context
+		context.close();
+	}
+
+}
+******************Properties file in spring ***************
+employee.java
+package beans;
+
+public class Employee {
+	private int id;
+	private String name;
+	private String team;
+
+	
+	public Employee(int id) {
+		super();
+		this.id = id;
+	}
+
+
+	public String show()
+	{
+		return "id= "+id+" name= "+name+"team="+team;
+	}
+}
+
+applicationcontext.java
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:property-placeholder location="classpath:sports.properties"/>
+	   <bean id = "empp" class = "beans.Employee">
+   			<constructor-arg value="10" type="int"></constructor-arg>
+   			<property name="team" value="${sp.team}"></property>
+    	</bean>
+</beans>
+
+sports.properties
+sp.team=csk
+
+test.java
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e=context.getBean("empp",Employee.class);
+		//call method
+		System.out.println(e.show());		
+		//close the context
+		context.close();
+	}
+
+}
+
+***************spring scopes****************
+1)singleton
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">	
+	   <bean id = "empp" 
+	   class = "beans.Employee"
+	   >
+   			
+   		
+    	</bean>
+</beans>
+
+employee.java
+
+package beans;
+
+public class Employee {
+	
+	
+
+}
+
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e1=context.getBean("empp",Employee.class);
+
+		System.out.println(e1);	
+		Employee e2=context.getBean("empp",Employee.class);
+
+		System.out.println(e2);	
+		//close the context
+		context.close();
+	}
+
+}
+
+output:
+
+beans.Employee@4883b407
+beans.Employee@4883b407
+
+2)prototype
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">	
+	   <bean id = "empp" 
+	   class = "beans.Employee"
+	   scope="prototype"
+	   >
+   			
+   		
+    	</bean>
+</beans>
+
+output:
+
+beans.Employee@604ed9f0
+beans.Employee@6a4f787b
+
+**********************spring bean life cycle methods************************
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">	
+	   <bean id = "empp" 
+	   class = "beans.Employee"
+	   init-method="myinitmethod"
+	   destroy-method="mydestroymethod"
+	   >
+   	</bean>
+</beans>
+
+employee.java
+
+package beans;
+
+public class Employee {
+	
+
+	public void myinitmethod()
+	{
+		System.out.println("init method");
+	}
+	public void mydestroymethod()
+	{
+		System.out.println("destroy method");
+	}
+
+}
+
+
+test.java
+
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e1=context.getBean("empp",Employee.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+output:
+
+init method
+beans.Employee@4883b407
+Oct 22, 2017 8:20:54 AM org.springframework.context.support.ClassPathXmlApplicationContext doClose
+INFO: Closing org.springframework.context.support.ClassPathXmlApplicationContext@7e32c033: startup date [Sun Oct 22 08:20:54 IST 2017];
+destroy method
+
+***************************Constructor injection with object of other class*****************************************************
+address.java
+
+package beans;
+
+public class address {
+	public String city;
+	public String state;
+	public String country;
+	public address() {
+		super();
+	}
+	public address(String city, String state, String country) {
+		super();
+		this.city = city;
+		this.state = state;
+		this.country = country;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	@Override
+	public String toString() {
+		return "address [city=" + city + ", state=" + state + ", country=" + country + "]";
+	}
+	
+	
+	
+}
+
+
+Employee.java 
+
+package beans;
+
+public class Employee {
+	public int id;
+	public String name;
+	public address add;
+	public Employee() {
+		super();
+	}
+	public Employee(int id, String name, address add) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.add = add;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public address getAdd() {
+		return add;
+	}
+	public void setAdd(address add) {
+		this.add = add;
+	}
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", add=" + add + "]";
+	}
+	
+	
+}
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="add" class="beans.address">
+		<constructor-arg value="ahmedabad"></constructor-arg>
+		<constructor-arg value="gujarat"></constructor-arg>
+		<constructor-arg value="india"></constructor-arg>
+	</bean>
+	<bean id="emp" class="beans.Employee">
+		<constructor-arg value="10"></constructor-arg>
+		<constructor-arg value="kishan"></constructor-arg>
+		<constructor-arg >
+			<ref bean="add"></ref>
+		</constructor-arg>
+	</bean>
+</beans>
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Employee e1=context.getBean("emp",Employee.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+
+******************setter injection with object of other class****************
+
+same as above except
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="add" class="beans.address">
+		<property name="city" value="ahmedabad"></property>
+		<property name="state" value="gujarat"></property>
+		<property name="country" value="india"></property>	
+	</bean>
+	<bean id="emp" class="beans.Employee">
+		<property name="id" value="10"></property>
+		<property name="name" value="kishan"></property>
+		<property name="add" >
+			<ref bean="add"></ref>
+		</property>
+		
+	</bean>
+</beans>
+
+*******************Constructor injection with collection of string********************************
+
+Question.java
+
+package beans;
+
+import java.util.List;
+
+public class Question {
+	public int id;
+	public String name;
+	public List<String> ans;
+	public Question() {
+		super();
+	}
+	public Question(int id, String name, List<String> ans) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.ans = ans;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<String> getAns() {
+		return ans;
+	}
+	public void setAns(List<String> ans) {
+		this.ans = ans;
+	}
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", name=" + name + ", ans=" + ans + "]";
+	}
+	
+	
+	
+}
+
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="q" class="beans.Question">
+		<constructor-arg value="07"></constructor-arg>
+		<constructor-arg value="csk skipper"></constructor-arg>
+		<constructor-arg >
+			<list>
+				<value>ms dhoni</value>
+				<value>caption cool</value>
+				<value>msd</value>
+				<value>mahi bhai</value>
+				<value>ms</value>
+				<value>thala</value>
+			</list>
+		</constructor-arg>
+		
+	</bean>
+</beans>
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Question;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Question e1=context.getBean("q",Question.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+ 
+************************setter injection with collection of string********************
+
+same except 
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="q" class="beans.Question">
+		<property name="id" value="07"></property>
+		<property name="name" value="csk skipper"></property>
+		<property name="ans">
+			<list>
+				<value>ms dhoni</value>
+				<value>caption cool</value>
+				<value>msd</value>
+				<value>mahi bhai</value>
+				<value>ms</value>
+				<value>thala</value>
+			</list>
+		</property>
+		
+	</bean>
+</beans>
+
+
+******************Constructor injection with non string collection************************
+
+Question.java
+
+package beans;
+
+import java.util.List;
+
+public class Question {
+	public int id;
+	public String name;
+	public List<Answer> ans;
+	public Question() {
+		super();
+	}
+	public Question(int id, String name, List<Answer> ans) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.ans = ans;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Answer> getAns() {
+		return ans;
+	}
+	public void setAns(List<Answer> ans) {
+		this.ans = ans;
+	}
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", name=" + name + ", ans=" + ans + "]";
+	}
+		
+	
+	
+}
+
+Answer.java
+
+package beans;
+
+public class Answer {
+	public int id;
+	public String name;
+	public Answer() {
+		super();
+	}
+	public Answer(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "Answer [id=" + id + ", name=" + name + "]";
+	}
+	
+	
+}
+
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="ans1" class="beans.Answer">
+		<constructor-arg value="100"></constructor-arg>
+		<constructor-arg value="kishan"></constructor-arg>
+	</bean>
+	<bean id="ans2" class="beans.Answer">
+		<constructor-arg value="101"></constructor-arg>
+		<constructor-arg value="nandha"></constructor-arg>
+	</bean>
+	<bean id="q" class="beans.Question">
+		<constructor-arg value="07"></constructor-arg>
+		<constructor-arg value="csk skipper"></constructor-arg>
+		<constructor-arg >
+			<list>
+				<ref bean="ans1"></ref>
+				<ref bean="ans2"></ref>
+			</list>
+		</constructor-arg>
+		
+	</bean>
+</beans>
+
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+import beans.Question;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Question e1=context.getBean("q",Question.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+
+***************Setter injection with non string collection **************************
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="ans1" class="beans.Answer">
+		<property name="id" value="100"></property>
+		<property name="name" value="kishan"></property>
+	</bean>
+	<bean id="ans2" class="beans.Answer">
+		<property name="id" value="101"></property>
+		<property name="name" value="nandha"></property>
+	</bean>
+	<bean id="q" class="beans.Question">
+		<property name="id" value="07"></property>
+		<property name="name" value="csk skipper"></property>
+		<property name="ans">
+			<list>
+				<ref bean="ans1"></ref>
+				<ref bean="ans2"></ref>
+			</list>
+		</property>
+		
+	</bean>
+</beans>
+
+
+************Constructor injection with map (int,string)************************************
+
+Question.java
+
+package beans;
+
+import java.util.Map;
+
+public class Question {
+	public int id;
+	public String name;
+	public Map<Integer, String> ans;
+	public Question() {
+		super();
+	}
+	public Question(int id, String name, Map<Integer, String> ans) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.ans = ans;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Map<Integer, String> getAns() {
+		return ans;
+	}
+	public void setAns(Map<Integer, String> ans) {
+		this.ans = ans;
+	}
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", name=" + name + ", ans=" + ans + "]";
+	}
+	
+		
+	
+	
+}
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="q" class="beans.Question">
+		<constructor-arg value="1"></constructor-arg>
+		<constructor-arg value="kishan"></constructor-arg>
+		<constructor-arg >
+			<map>
+				<entry key="11" value="java is platform"></entry>
+				<entry key="12" value="java is programing language"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>
+
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+import beans.Question;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Question e1=context.getBean("q",Question.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+
+*******************Setter injection with map (int,string)**********************
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="q" class="beans.Question">
+		<property name="id" value="1"></property>
+		<property name="name" value="kishan"></property>
+		<property name="ans">
+			<map>
+				<entry key="11" value="java is platform"></entry>
+				<entry key="12" value="java is programing language"></entry>
+			</map>
+		</property>
+	</bean>
+</beans>
+
+
+*****************Constructor injection map with objects**********************
+
+Question.java
+
+package beans;
+
+import java.util.Map;
+
+public class Question {
+	public int id;
+	public String name;
+	public Map<User,Answer> ans;
+	public Question() {
+		super();
+	}
+	public Question(int id, String name, Map<User, Answer> ans) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.ans = ans;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Map<User, Answer> getAns() {
+		return ans;
+	}
+	public void setAns(Map<User, Answer> ans) {
+		this.ans = ans;
+	}
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", name=" + name + ", ans=" + ans + "]";
+	}
+	
+	
+}
+
+Answer.java
+
+package beans;
+
+public class Answer {
+	public int id;
+	public String name;
+	public Answer() {
+		super();
+	}
+	public Answer(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "Answer [id=" + id + ", name=" + name + "]";
+	}
+	
+	
+}
+
+
+user.java
+
+package beans;
+
+public class User {
+	public int uid;
+	public String uname;
+	public User() {
+		super();
+	}
+	
+	public User(int uid, String uname) {
+		super();
+		this.uid = uid;
+		this.uname = uname;
+	}
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	@Override
+	public String toString() {
+		return "User [uid=" + uid + ", uname=" + uname + "]";
+	}
+	
+	
+}
+
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="q" class="beans.Question">
+		<constructor-arg value="1"></constructor-arg>
+		<constructor-arg value="kishan"></constructor-arg>
+		<constructor-arg >
+			<map>
+				<entry key-ref="user1" value-ref="ans1"></entry>
+				<entry key-ref="user2" value-ref="ans2"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="ans1" class="beans.Answer">
+		<constructor-arg value="100"></constructor-arg>
+		<constructor-arg  value="kishan"></constructor-arg>
+	</bean>
+	<bean id="ans2" class="beans.Answer">
+		<constructor-arg  value="101"></constructor-arg>
+		<constructor-arg value="dvwer"></constructor-arg>
+	</bean>
+	<bean id="user1" class="beans.User">
+		<constructor-arg value="11"></constructor-arg>
+		<constructor-arg value="kishan"></constructor-arg>
+	</bean>
+	<bean id="user2" class="beans.User">
+		<constructor-arg value="21"></constructor-arg>
+		<constructor-arg value="nandha"></constructor-arg>
+	</bean>
+</beans>
+
+
+
+test.java
+
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Employee;
+import beans.Question;
+public class test {
+
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
+		//retrieve bean from spring container
+		Question e1=context.getBean("q",Question.class);
+
+		System.out.println(e1);	
+	
+		//close the context
+		context.close();
+	}
+
+}
+
+
+********************setter injection with map with object****************************
+
+beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="q" class="beans.Question">
+		<property name="id" value="1"></property>
+		<property name="name" value="kishan"></property>
+		<property name="ans">
+			<map>
+				<entry key-ref="user1" value-ref="ans1"></entry>
+				<entry key-ref="user2" value-ref="ans2"></entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="ans1" class="beans.Answer">
+		<property name="id" value="100"></property>
+		<property name="name" value="kishan"></property>
+	</bean>
+	<bean id="ans2" class="beans.Answer">
+		<property name="id" value="101"></property>
+		<property name="name" value="dvwer"></property>
+	</bean>
+	<bean id="user1" class="beans.User">
+		<property name="uid" value="11"></property>
+		<property name="uname" value="kishan"></property>
+	</bean>
+	<bean id="user2" class="beans.User">
+		<property name="uid" value="21"></property>
+		<property name="uname" value="nandha"></property>
+	</bean>
+</beans>
+
+
+********************autowiring***********************************
+
+Autowiring in Spring
+
+Autowiring feature of spring framework enables you to inject the object dependency implicitly. It internally uses setter or constructor injection.
+
+Autowiring can't be used to inject primitive and string values. It works with reference only.
+Advantage of Autowiring
+
+It requires the less code because we don't need to write the code to inject the dependency explicitly.
+Disadvantage of Autowiring
+
+No control of programmer.
+
+It can't be used for primitive and string values.
+Autowiring Modes
+
+There are many autowiring modes:
+No.	Mode	Description
+1)	no	It is the default autowiring mode. It means no autowiring bydefault.
+2)	byName	The byName mode injects the object dependency according to name of the bean. In such case, property name and bean name must be same. It internally calls setter method.
+3)	byType	The byType mode injects the object dependency according to type. So property name and bean name can be different. It internally calls setter method.
+4)	constructor	The constructor mode injects the dependency by calling the constructor of the class. It calls the constructor having large number of parameters.
+5)	autodetect	It is deprecated since Spring 3.
+Example of Autowiring
+
+Let's see the simple code to use autowiring in spring. You need to use autowire attribute of bean element to apply the autowire modes.
+
+    <bean id="a" class="org.sssit.A" autowire="byName"></bean>  
+
+Let's see the full example of autowiring in spring. To create this example, we have created 4 files.
+
+    B.java
+    A.java
+    applicationContext.xml
+    Test.java
+
+B.java
+
+This class contains a constructor and method only.
+
+    package org.sssit;  
+    public class B {  
+    B(){System.out.println("b is created");}  
+    void print(){System.out.println("hello b");}  
+    }  
+
+A.java
+
+This class contains reference of B class and constructor and method.
+
+    package org.sssit;  
+    public class A {  
+    B b;  
+    A(){System.out.println("a is created");}  
+    public B getB() {  
+        return b;  
+    }  
+    public void setB(B b) {  
+        this.b = b;  
+    }  
+    void print(){System.out.println("hello a");}  
+    void display(){  
+        print();  
+        b.print();  
+    }  
+    }  
+
+applicationContext.xml
+
+    <?xml version="1.0" encoding="UTF-8"?>  
+    <beans  
+        xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:p="http://www.springframework.org/schema/p"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+      
+    <bean id="b" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="byName"></bean>  
+      
+    </beans>  
+
+Test.java
+
+This class gets the bean from the applicationContext.xml file and calls the display method.
+
+    package org.sssit;  
+    import org.springframework.context.ApplicationContext;  
+    import org.springframework.context.support.ClassPathXmlApplicationContext;  
+    public class Test {  
+    public static void main(String[] args) {  
+        ApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");  
+        A a=context.getBean("a",A.class);  
+        a.display();  
+    }  
+    }  
+
+Output:
+
+b is created
+a is created
+hello a
+hello b
+
+1) byName autowiring mode
+
+In case of byName autowiring mode, bean id and reference name must be same.
+
+It internally uses setter injection.
+
+    <bean id="b" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="byName"></bean>  
+
+But, if you change the name of bean, it will not inject the dependency.
+
+Let's see the code where we are changing the name of the bean from b to b1.
+
+    <bean id="b1" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="byName"></bean>  
+
+2) byType autowiring mode
+
+In case of byType autowiring mode, bean id and reference name may be different. But there must be only one bean of a type.
+
+It internally uses setter injection.
+
+    <bean id="b1" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="byType"></bean>  
+
+In this case, it works fine because you have created an instance of B type. It doesn't matter that you have different bean name than reference name.
+
+But, if you have multiple bean of one type, it will not work and throw exception.
+
+Let's see the code where are many bean of type B.
+
+    <bean id="b1" class="org.sssit.B"></bean>  
+    <bean id="b2" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="byName"></bean>  
+
+In such case, it will throw exception.
+3) constructor autowiring mode
+
+In case of constructor autowiring mode, spring container injects the dependency by highest parameterized constructor.
+
+If you have 3 constructors in a class, zero-arg, one-arg and two-arg then injection will be performed by calling the two-arg constructor.
+
+    <bean id="b" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="constructor"></bean>  
+
+4) no autowiring mode
+
+In case of no autowiring mode, spring container doesn't inject the dependency by autowiring.
+
+    <bean id="b" class="org.sssit.B"></bean>  
+    <bean id="a" class="org.sssit.A" autowire="no"></bean>  
+
+
+*************************Factory Method************************************************************
+
+Dependency Injection with Factory Method in Spring
+
+Spring framework provides facility to inject bean using factory method. To do so, we can use two attributes of bean element.
+
+    factory-method: represents the factory method that will be invoked to inject the bean.
+    factory-bean: represents the reference of the bean by which factory method will be invoked. It is used if factory method is non-static.
+
+A method that returns instance of a class is called factory method.
+
+    public class A {  
+    public static A getA(){//factory method  
+        return new A();  
+    }  
+    }  
+
+Factory Method Types
+
+There can be three types of factory method:
+
+1) A static factory method that returns instance of its own class. It is used in singleton design pattern.
+
+    <bean id="a" class="com.javatpoint.A" factory-method="getA"></bean>  
+
+2) A static factory method that returns instance of another class. It is used instance is not known and decided at runtime.
+
+    <bean id="b" class="com.javatpoint.A" factory-method="getB"></bean>  
+
+3) A non-static factory method that returns instance of another class. It is used instance is not known and decided at runtime.
+
+    <bean id="a" class="com.javatpoint.A"></bean>  
+    <bean id="b" class="com.javatpoint.A" factory-method="getB" factory-bean="a"></bean>  
+
+Type 1
+
+Let's see the simple code to inject the dependency by static factory method.
+
+    <bean id="a" class="com.javatpoint.A" factory-method="getA"></bean>  
+
+Let's see the full example to inject dependency using factory method in spring. To create this example, we have created 3 files.
+
+    A.java
+    applicationContext.xml
+    Test.java
+
+A.java
+
+This class is a singleton class.
+
+    package com.javatpoint;  
+    public class A {  
+    private static final A obj=new A();  
+    private A(){System.out.println("private constructor");}  
+    public static A getA(){  
+        System.out.println("factory method ");  
+        return obj;  
+    }  
+    public void msg(){  
+        System.out.println("hello user");  
+    }  
+    }  
+
+applicationContext.xml
+
+    <?xml version="1.0" encoding="UTF-8"?>  
+    <beans  
+        xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:p="http://www.springframework.org/schema/p"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+      
+    <bean id="a" class="com.javatpoint.A" factory-method="getA"></bean>  
+      
+    </beans>  
+
+Test.java
+
+This class gets the bean from the applicationContext.xml file and calls the msg method.
+
+    package org.sssit;  
+    import org.springframework.context.ApplicationContext;  
+    import org.springframework.context.support.ClassPathXmlApplicationContext;  
+    public class Test {  
+    public static void main(String[] args) {  
+        ApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");  
+        A a=(A)context.getBean("a");  
+        a.msg();  
+    }  
+    }  
+
+Output:
+
+private constructor
+factory method
+hello user
+
+Type 2
+
+Let's see the simple code to inject the dependency by static factory method that returns the instance of another class.
+
+To create this example, we have created 6 files.
+
+    Printable.java
+    A.java
+    B.java
+    PrintableFactory.java
+    applicationContext.xml
+    Test.java
+
+Printable.java
+
+    package com.javatpoint;  
+    public interface Printable {  
+    void print();  
+    }  
+
+A.java
+
+    package com.javatpoint;  
+    public class A implements Printable{  
+        @Override  
+        public void print() {  
+            System.out.println("hello a");  
+        }  
+      
+    }  
+
+B.java
+
+    package com.javatpoint;  
+    public class B implements Printable{  
+        @Override  
+        public void print() {  
+            System.out.println("hello b");  
+        }  
+    }  
+
+PrintableFactory.java
+
+    package com.javatpoint;  
+    public class PrintableFactory {  
+    public static Printable getPrintable(){  
+        //return new B();  
+              return new A();//return any one instance, either A or B  
+    }  
+    }  
+
+applicationContext.xml
+
+    <?xml version="1.0" encoding="UTF-8"?>  
+    <beans  
+        xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:p="http://www.springframework.org/schema/p"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+      
+    <bean id="p" class="com.javatpoint.PrintableFactory" factory-method="getPrintable"></bean>  
+      
+    </beans>  
+
+Test.java
+
+This class gets the bean from the applicationContext.xml file and calls the print() method.
+
+    package org.sssit;  
+    import org.springframework.context.ApplicationContext;  
+    import org.springframework.context.support.ClassPathXmlApplicationContext;  
+    public class Test {  
+    public static void main(String[] args) {  
+        ApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");  
+        Printable p=(Printable)context.getBean("p");  
+        p.print();  
+    }  
+    }  
+
+Output:
+
+hello a
+
+Type 3
+
+Let's see the example to inject the dependency by non-static factory method that returns the instance of another class.
+
+To create this example, we have created 6 files.
+
+    Printable.java
+    A.java
+    B.java
+    PrintableFactory.java
+    applicationContext.xml
+    Test.java
+
+All files are same as previous, you need to change only 2 files: PrintableFactory and applicationContext.xml.
+PrintableFactory.java
+
+    package com.javatpoint;  
+    public class PrintableFactory {  
+    //non-static factory method  
+    public Printable getPrintable(){  
+        return new A();//return any one instance, either A or B  
+    }  
+    }  
+
+applicationContext.xml
+
+    <?xml version="1.0" encoding="UTF-8"?>  
+    <beans  
+        xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:p="http://www.springframework.org/schema/p"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+      
+    <bean id="pfactory" class="com.javatpoint.PrintableFactory"></bean>  
+    <bean id="p" class="com.javatpoint.PrintableFactory" factory-method="getPrintable"   
+    factory-bean="pfactory"></bean>  
+      
+    </beans>  
+
+Output:
+
+hello a
+
+
+	
+**************************************************************************************************** Spring Annotations ********************************************************************************************
+
+AppContext.java 
+
+package test;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
+@Component 
+@ComponentScan("com.beans")
+public class AppConfig {
+
+}
+
+
+***Notice @ComponentScan which will make Spring auto detect the annotated beans via scanning the specified package and wire them wherever needed (using @Resource or @Autowired ).
+
+Above configuration is analogues to following in XML
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+ 
+    <context:component-scan base-package="com.websystique.spring" />
+ 
+</beans>
+
+License.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Component 
+public class License {
+	
+	public License() {
+		super();
+	}
+	public void print()
+	{	
+		System.out.println("license class");
+	}
+}
+
+test.java
+
+package test;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.beans.License;
+
+public class Test {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext(AppConfig.class);
+		License l=(License)context.getBean(License.class);
+		l.print();
+	}
+
+}
+
+
+********************autowired on field with anno*******************************
+
+license.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Component 
+public class License {
+	
+		@Autowired
+		@Value("1234567")
+		public String number;
+	
+		public License() {
+			super();
+		}
+	
+		public String getNumber() {
+			return number;
+		}
+	
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+text.java
+
+package test;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.beans.License;
+
+public class Test {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext(AppConfig.class);
+		License l=(License)context.getBean(License.class);
+		System.out.println(l.getNumber());
+	}
+
+}
+
+
+
+********************autowired on setter with anno*******************************
+
+license.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Component 
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+	
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+test.java same 
+
+*****************Autowired with setter ********************************************
+
+license.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Component 
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+		
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+driver.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Driver {
+	public License license;
+
+	public Driver() {
+		super();
+	}
+
+	public License getLicense() {
+		return license;
+	}
+	
+	@Autowired
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	
+	
+	
+	
+}
+
+
+test.java
+
+package test;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.beans.Driver;
+import com.beans.License;
+
+public class Test {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext(AppConfig.class);
+		Driver d=(Driver)context.getBean(Driver.class);
+		System.out.println(d.getLicense().getNumber());
+	}
+
+}
+
+
+************Autowired with constructor***************************************
+
+driver.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Driver {
+	public License license;
+
+	public Driver() {
+		super();
+	}
+
+	public License getLicense() {
+		return license;
+	}
+	
+	@Autowired
+	public Driver(License license) {
+		super();
+		this.license = license;
+	}
+
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	
+	
+	
+	
+}
+
+***********Autowired with field***************************************
+
+driver.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Driver {
+	@Autowired
+	public License license;
+
+	public Driver() {
+		super();
+	}
+
+	public License getLicense() {
+		return license;
+	}
+	
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	
+	
+	
+	
+}
+
+******************************Resource demo****************************
+
+Standard @Resource annotation marks a resource that is needed by the application. It is analogous to @Autowired in that both injects beans by type when no attribute provided. But with name attribute, @Resource allows you to inject a bean by it’s name, which @Autowired does not.
+
+license.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
+@Component("lic")
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+		
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+driver.java
+
+package com.beans;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("dri")
+public class Driver {
+	@Resource(name="lic")
+	public License license;
+
+	public Driver() {
+		super();
+	}
+
+	public License getLicense() {
+		return license;
+	}
+	
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	
+	
+	
+	
+}
+
+test.java same
+
+*******************************Qualifier demo******************************************
+
+@Qualifier is useful for the situation where you have more than one bean matching the type of dependency and thus resulting in ambiguity.
+
+Define Beans to work with
+package com.websystique.spring.domain;
+ 
+public interface Car {
+ 
+    public void getCarName();
+ 
+}
+package com.websystique.spring.domain;
+ 
+import org.springframework.stereotype.Component;
+ 
+@Component("Ferari")
+public class Ferari implements Car{
+ 
+    public void getCarName() {
+        System.out.println("This is Ferari");
+    }
+ 
+}
+package com.websystique.spring.domain;
+ 
+import org.springframework.stereotype.Component;
+ 
+@Component("Mustang")
+public class Mustang implements Car{
+ 
+    public void getCarName() {
+        System.out.println("This is Mustang");
+    }
+ 
+}
+package com.websystique.spring.domain;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+ 
+@Component
+public class Bond {
+ 
+    @Autowired
+    private Car car;
+     
+    public void showCar(){
+        car.getCarName();
+    }
+}
+
+Run Applicaion
+
+Load context and Run it.
+package com.websystique.spring;
+ 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+ 
+import com.websystique.spring.config.AppConfig;
+import com.websystique.spring.domain.Bond;
+ 
+public class AppMain {
+ 
+    public static void main(String args[]) {
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(
+                AppConfig.class);
+ 
+        Bond bond = (Bond) context.getBean("bond");
+        bond.showCar();
+    }
+ 
+}
+
+On running, Spring throws following exception:
+Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type [com.websystique.spring.domain.Car] is defined: expected single matching bean but found 2: Ferari,Mustang
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:970)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:858)
+    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:480)
+    ... 14 more
+
+What happened is Spring was not able to decide which bean (Ferari or Mustang as both implements Car) to choose for auto-wiring ,it throws this exception.
+
+Happily, @Qualifier saves the day.
+
+Change the Bond class as shown below
+package com.websystique.spring.domain;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+ 
+@Component
+public class Bond {
+ 
+    @Autowired
+    @Qualifier("Mustang")
+    private Car car;
+     
+    public void showCar(){
+        car.getCarName();
+    }
+}
+
+Run Application
+
+Following will be the output.
+This is Mustang
+
+*****************************************optional autowiring ***********************************************
+
+Mark Autowiring optional with attribute required=”false”
+
+By default, @Autowored annotation makes sure that field is indeed autowired. In case autowiring is not successful, Spring will throw an exception. There are times however when you want to make autowiring optional. Setting @Autowired required attribute to ‘false’ will make this filed optional for autowiring and Spring will skip it(remain null) if dependency not found.
+package com.websystique.spring.domain;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+ 
+@Component("driver")
+public class Driver {
+    @Autowired(required=false)
+    private License license;
+     
+    //getter,setter
+ 
+    @Override
+    public String toString() {
+        return "Driver [license=" + license + "]";
+    }
+}
+
+In above example, if no bean of type License been found, it will remain null and no error will be thrown on context loading.
+
+caveat :
+Note that standard @Resource annotation does not have this flexibility. In case the dependency annotated with @Resource not found, Spring will throw an exception. Both @Resource and @Autowired have few differences : No optionality in @Resource and no autowiring by bean name in @Autowired.
+All in all, @Autowired is the most widely used option compare to @Resource and autowire attribute in XML.
+
+That’s it.
+
+
+*************************sccope with anno*************************************************************
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component("lic")
+@Scope("singleton")
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+		
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+************************bean life cycle methods with anno **********************************************************************
+
+package com.beans;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("dri")
+public class Driver {
+	@Resource(name="lic")
+	public License license;
+
+	public Driver() {
+		super();
+	}
+
+	public License getLicense() {
+		return license;
+	}
+	
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	@PostConstruct//init 
+	public void myinitmethod()
+	{
+		System.out.println("init method");
+	}
+	@PreDestroy//destroy
+	public void mydestroymethod()
+	{
+		System.out.println("destroy method");
+	}
+	
+	
+}
+
+*******************************************properties with anno***************************************************************************************
+
+properties file
+
+email=kishan.nandha99@gmail.com
+team=csk
+
+license.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+		
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+driver.java
+
+package com.beans;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Driver {
+	@Autowired
+	public License license;
+	@Value("${email}")
+	public String email;
+	@Value("${team}")
+	public String team;
+	public Driver() {
+		super();
+	}
+	public License getLicense() {
+		return license;
+	}
+	public void setLicense(License license) {
+		this.license = license;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getTeam() {
+		return team;
+	}
+	public void setTeam(String team) {
+		this.team = team;
+	}
+	@Override
+	public String toString() {
+		return "Driver [license=" + license.getNumber() + ", email=" + email + ", team=" + team + "]";
+	}
+	
+	
+}
+
+
+test.java
+
+package test;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.beans.Driver;
+import com.beans.License;
+
+public class Test {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext(AppConfig.class);
+		Driver d=(Driver)context.getBean(Driver.class);
+		System.out.println(d);
+	}
+
+}
+
+
+
+********************************how to define beans/no component scan************************************
+
+License.java
+
+package com.beans;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+
+public class License {
+	
+		
+		public String number;
+	
+		public License() {
+			super();
+		}
+		
+		public String getNumber() {
+			return number;
+		}
+		
+		@Autowired
+		@Value("1234567")
+		public void setNumber(String number) {
+			this.number = number;
+		}
+}
+
+driver.java
+
+package com.beans;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+
+public class Driver {
+	@Autowired
+	public License license;
+
+	public License getLicense() {
+		return license;
+	}
+
+	public void setLicense(License license) {
+		this.license = license;
+	}
+
+	public Driver() {
+		super();
+	}
+
+	public Driver(License license) {
+		super();
+		this.license = license;
+	}
+
+	@Override
+	public String toString() {
+		return "Driver [license=" + license.getNumber() + "]";
+	}
+	
+	
+	
+	
+}
+
+
+AppConfig.java
+
+package test;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.beans.Driver;
+import com.beans.License;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	public License license()
+	{
+		return new License();
+	}
+	@Bean
+	public Driver driver(License license)
+	{
+		return new Driver(license());
+	}
+}
+
+test.java same
+
+
+*************************Collection injection with anno******************************************************
+AntiVirus.java
+
+package com.beans;
+
+public interface AntiVirus {
+	public void remove();
+}
+
+TrojanRemover.java
+
+package com.beans;
+
+import java.util.List;
+
+public class TrojanRemover implements AntiVirus {
+	public List<String> infectedfiles;
+	
+	public TrojanRemover(List<String> infectedfiles) {
+		super();
+		this.infectedfiles = infectedfiles;
+	}
+
+	public TrojanRemover() {
+		super();
+	}
+	
+	public List<String> getInfectedfiles() {
+		return infectedfiles;
+	}
+
+	public void setInfectedfiles(List<String> infectedfiles) {
+		this.infectedfiles = infectedfiles;
+	}
+
+	@Override
+	public void remove() {
+		System.out.println("removing trojen "+ infectedfiles.toString());
+
+	}
+
+}
+
+
+VirusRemover.java
+
+package com.beans;
+
+import java.util.List;
+
+public class VirusRemover implements AntiVirus {
+	public List<String> infectedfiles;
+	
+	public VirusRemover() {
+		super();
+	}
+	
+	public VirusRemover(List<String> infectedfiles) {
+		super();
+		this.infectedfiles = infectedfiles;
+	}
+	
+	public List<String> getInfectedfiles() {
+		return infectedfiles;
+	}
+
+	public void setInfectedfiles(List<String> infectedfiles) {
+		this.infectedfiles = infectedfiles;
+	}
+
+	@Override
+	public void remove() {
+		System.out.println("removing virus "+ infectedfiles.toString());
+
+	}
+
+}
+
+
+AppConfig.java
+
+package test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.beans.TrojanRemover;
+import com.beans.VirusRemover;
+
+@Configuration
+public class AppConfig2 {
+	@Bean
+	public List<String> getinfectedfiles()
+	{
+		ArrayList<String> al=new ArrayList<String>();
+		al.add("src.exe");
+		al.add("service.exe");
+		al.add("kms.exe");
+		al.add("process.exe");
+		return al;
+	}
+	@Bean
+	public VirusRemover virusremover(List<String> getinfectedfiles)
+	{
+		return new VirusRemover(getinfectedfiles());
+	}
+	@Bean
+	public TrojanRemover trojenremover(List<String> getinfectedfiles)
+	{
+		return new TrojanRemover(getinfectedfiles());
+	}
+}
+
+
+test.java
+
+package test;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.beans.TrojanRemover;
+import com.beans.VirusRemover;
+
+public class Test {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context= new AnnotationConfigApplicationContext(AppConfig2.class);
+		VirusRemover vr=(VirusRemover)context.getBean(VirusRemover.class);
+		TrojanRemover tr=(TrojanRemover)context.getBean(TrojanRemover.class);
+		vr.remove();
+		tr.remove();
+		
+	}
+
+}
+
+
+output:
+removing virus [src.exe, service.exe, kms.exe, process.exe]
+removing trojen [src.exe, service.exe, kms.exe, process.exe]
+
