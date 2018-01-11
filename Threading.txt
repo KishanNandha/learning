@@ -1,0 +1,325 @@
+*********************Java Thread Example by extending Thread class******************
+
+package main;
+
+public class Multi extends Thread {
+
+	public void run()      //will be called when thread is in runnning state(from runnable to running)
+	{
+		System.out.println("Thread is running");
+	}
+	public static void main(String[] args) {
+		Multi m=new Multi();
+		m.start(); //will move thread from new state to runnable
+	}
+
+}
+
+****************Java Thread Example by implementing Runnable interface*********************
+
+package main;
+
+public class Multi1 implements Runnable {
+	public void run()
+	{
+		System.out.println("thread is running");
+	}
+	public static void main(String[] args) {
+		
+		Multi1 m1=new Multi1();
+		Thread t1=new Thread(m1);
+		t1.start();
+	}
+
+}
+
+
+*********sleep() method demo***********************
+
+package main;
+
+public class SleepDemo extends Thread {
+	public void run()
+	{
+		for(int i=0;i<5;i++)
+		{
+			try {
+				
+				Thread.sleep(500);
+			} 
+			catch (InterruptedException e)
+			{
+				
+				e.printStackTrace();
+			}
+			System.out.println(i);
+			
+		}
+	}
+	public static void main(String[] args) {
+		
+		SleepDemo sd=new SleepDemo();
+		sd.start();
+	}
+
+}
+
+
+*********javatpoint demo*(***********************************
+
+What if we call run() method directly instead start() method?
+Each thread starts in a separate call stack.
+Invoking the run() method from main thread, the run() method goes onto the current call stack 
+rather than at the beginning of a new call stack.
+class TestCallRun1 extends Thread{  
+ public void run(){  
+   System.out.println("running...");  
+ }  
+ public static void main(String args[]){  
+  TestCallRun1 t1=new TestCallRun1();  
+  t1.run();//fine, but does not start a separate call stack  
+ }  
+}  
+Test it Now
+Output:running...
+MainThreadStack Problem if you direct call run() method
+class TestCallRun2 extends Thread{  
+ public void run(){  
+  for(int i=1;i<5;i++){  
+    try{Thread.sleep(500);}catch(InterruptedException e){System.out.println(e);}  
+    System.out.println(i);  
+  }  
+ }  
+ public static void main(String args[]){  
+  TestCallRun2 t1=new TestCallRun2();  
+  TestCallRun2 t2=new TestCallRun2();  
+   
+  t1.run();  
+  t2.run();  
+ }  
+}  
+
+Output:1
+       2
+       3
+       4
+       5
+       1
+       2
+       3
+       4
+       5
+ 
+As you can see in the above program that there is no context-switching because here t1
+ and t2 will be treated as normal object not thread object.
+
+**************The join( ) Method********************
+
+
+The non-static join()method of class Threadlets one thread "join onto the 
+end" of another thread. If you have a thread B that can't do its work until another 
+thread A has completed itswork, then you want thread B to "join" thread A. This 
+means that thread B will not become runnable until A has finished (and entered the 
+dead state).
+Thread t = new Thread();
+t.start();
+t.join();
+The preceding code takes the currently running thread (if this were in the 
+main()method, then that would be the main thread) and joins it to the end of the 
+thread referenced by t. This blocks the current thread from becoming runnable until 
+after the thread referenced by tis no longer alive. In other words, the code t.
+join()means "Join me (the current thread) to the end of t, so that tmust finish 
+before I (the current thread) can run again." You can also call one of the overloaded 
+versions of join()that takes a timeout duration so that you're saying, "wait until 
+thread tis done, but if it takes longer than 5,000 milliseconds, then stop waiting and 
+become runnable anyway."
+
+Syntax:
+public void join()throws InterruptedException
+public void join(long milliseconds)throws InterruptedException
+
+
+WITHOUT join method
+
+package main;
+
+public class JoinDemo extends Thread {
+	public void run()
+	{
+		for(int i=0;i<5;i++)
+		{
+			System.out.println("t1 "+i);
+		}
+	}
+	public static void main(String args[]) throws InterruptedException
+	{
+		JoinDemo t1=new JoinDemo();
+		t1.start();
+
+		for(int i=0;i<5;i++)
+		{
+			System.out.println("main "+i);
+		}
+	}
+}
+
+output: //every time random output
+main 0
+main 1
+t1 0
+t1 1
+t1 2
+main 2
+t1 3
+t1 4
+main 3
+main 4
+
+
+with join method
+
+package main;
+
+public class JoinDemo extends Thread {
+	public void run()
+	{
+		for(int i=0;i<5;i++)
+		{
+			System.out.println("t1 "+i);
+		}
+	}
+	public static void main(String args[]) throws InterruptedException
+	{
+		JoinDemo t1=new JoinDemo();
+		t1.start();
+		t1.join();
+		for(int i=0;i<5;i++)
+		{
+			System.out.println("main "+i);
+		}
+	}
+}
+
+output: //current thread(main) will be appended at the end of t1 thread so t1 will complete its execution
+t1 0
+t1 1
+t1 2
+t1 3
+t1 4
+main 0
+main 1
+main 2
+main 3
+main 4
+
+********CurrentThread ,getName,setName,getId,getPriority*******************************
+
+package main;
+
+public class CurrentThread extends Thread {
+
+	public static void main(String[] args) {
+		Thread t1=Thread.currentThread();
+		System.out.println("before changing name:");
+		System.out.println(t1.getName());
+		System.out.println(t1.getId());
+		System.out.println(t1.getPriority());
+		System.out.println("after changing name");
+		t1.setName("kishan");
+		System.out.println(t1.getName());
+	}
+
+}
+
+output:
+before changing name:
+main
+1
+5
+after changing name
+kishan
+
+
+*************Priority Demo*******************
+
+package main;
+
+public class PriorityDEmo extends Thread{
+	public void run(){  
+		   System.out.println("running thread name is:"+Thread.currentThread().getName());  
+		   System.out.println("running thread priority is:"+Thread.currentThread().getPriority());  
+		  
+		  }  
+		 public static void main(String args[]){  
+		  PriorityDEmo m1=new PriorityDEmo();  
+		  PriorityDEmo m2=new PriorityDEmo();  
+		  m1.setPriority(Thread.MIN_PRIORITY);  
+		  m2.setPriority(Thread.MAX_PRIORITY);  
+		  m1.start();  
+		  m2.start();  
+		   
+		 }  
+}
+
+output:
+running thread name is:Thread-0
+running thread name is:Thread-1
+running thread priority is:10
+running thread priority is:1
+
+*****************Daemon Thread Demo************************
+Daemon Thread in Java
+Daemon thread in java is a service provider thread that provides services to the user thread. Its life depend on the mercy of user threads i.e. when all the user threads dies, JVM terminates this thread automatically.
+
+There are many java daemon threads running automatically e.g. gc, finalizer etc.
+
+You can see all the detail by typing the jconsole in the command prompt. The jconsole tool provides information about the loaded classes, memory usage, running threads etc.
+
+Points to remember for Daemon Thread in Java
+It provides services to user threads for background supporting tasks. It has no role in life than to serve user threads.
+Its life depends on user threads.
+It is a low priority thread.
+Why JVM terminates the daemon thread if there is no user thread?
+The sole purpose of the daemon thread is that it provides services to user thread for background supporting task. If there is no user thread, why should JVM keep running this thread. That is why JVM terminates the daemon thread if there is no user thread.
+
+Methods for Java Daemon thread by Thread class
+The java.lang.Thread class provides two methods for java daemon thread.
+
+No.	Method	Description
+1)	public void setDaemon(boolean status)	is used to mark the current thread as daemon thread or user thread.
+2)	public boolean isDaemon()	is used to check that current is daemon.
+
+
+package main;
+
+public class DaemonDemo extends Thread{
+	public void run()
+	{
+		if(Thread.currentThread().isDaemon())
+		{
+			System.out.println(Thread.currentThread().getName()+" is daemon thread");
+		}
+		else
+		{
+			System.out.println(Thread.currentThread().getName()+" is user thread");
+		}
+	}		
+	public static void main(String[] args) {
+		DaemonDemo t1= new DaemonDemo();
+		DaemonDemo t2= new DaemonDemo();
+		DaemonDemo t3= new DaemonDemo();
+		 
+		t2.setDaemon(true);
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+
+}
+
+output:
+Thread-0 is user thread
+Thread-2 is user thread
+Thread-1 is daemon thread
+
+
